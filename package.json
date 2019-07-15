@@ -2,10 +2,11 @@
   "name": "webapp",
   "version": "0.3.0",
   "description": "This application is sample code of Shell Script Magazine",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "clean": "rimraf dist/*",
+    "start": "node ."
   },
   "engines": {
     "node": "12.4.0"
