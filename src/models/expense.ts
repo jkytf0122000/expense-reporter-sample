@@ -1,7 +1,8 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 
+// todo: config 専用で行う .ts を作る
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
+const config = require(__dirname + '/../../config/config.json')[env];
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 class Expense extends Model {
@@ -41,19 +42,12 @@ Expense.init({
   amount: {
     type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false
-  },
-  created_at: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  updated_at: {
-    type: DataTypes.DATE,
-    allowNull: false,
   }
 }, {
     tableName: 'expenses',
     underscored: true,
     sequelize: sequelize
-  });
+  }
+);
 
 export { Expense };
