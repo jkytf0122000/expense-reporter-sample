@@ -1,0 +1,26 @@
+{
+  "name": "webapp",
+  "version": "0.1.0",
+  "description": "This application is sample code of Shell Script Magazine",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "engines": {
+    "node": "11.13.0"
+  },
+  "author": "しょっさん",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.4",
+    "express": "^4.16.4",
+    "express-session": "^1.16.1",
+    "pg": "^7.9.0",
+    "sequelize": "^5.4.0",
+    "sequelize-cli": "^5.4.0"
+  },
+  "devDependencies": {
+    "sqlite3": "^4.0.6"
+  }
+}
