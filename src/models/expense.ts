@@ -3,7 +3,13 @@ import { Sequelize, Model, DataTypes } from 'sequelize';
 // todo: データベース接続を定義する Typescript モジュール
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
-const sequelize = new Sequelize(config.database, config.username, config.password, config);
+let sequelize;
+
+if (config.use_env_variable) {
+  sequelize = new Sequelize(config.use_env_variable);
+} else {
+  sequelize = new Sequelize(config.database, config.username, config.password, config);
+}
 
 class Expense extends Model {
   public id!: number;
@@ -44,10 +50,10 @@ Expense.init({
     allowNull: false
   }
 }, {
-    tableName: 'expenses',
-    underscored: true,
-    sequelize: sequelize
-  }
+  tableName: 'expenses',
+  underscored: true,
+  sequelize: sequelize
+}
 );
 
 export { Expense };
