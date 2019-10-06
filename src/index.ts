@@ -1,7 +1,5 @@
 import Express from 'express';
 const app = Express();
-// import { Models } from './models';
-// const expenses = Models.expense;
 import { Expense } from './models/expense';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -39,15 +37,15 @@ app.post('/login', (req: Express.Request, res: Express.Response): void => {
   res.redirect('/');
 });
 
-app.post('/expense', (req, res) => {
+app.post('/expense', (req: Express.Request, res: Express.Response): void => {
   Expense.create(req.body)
     .then(() => {
       res.redirect('/');
     });
 });
 
-app.get('/', (req, res) => {
-  const user = req.body.user || '名無しの権兵衛';
+app.get('/', (req: Express.Request, res: Express.Response): void => {
+  const user = req!.session!.user || '名無しの権兵衛';
   res.writeHead(200, { "Content-Type": "text/html" });
   res.write(`<h1>Hello ${user}</h1><table><tr><th>ID</th><th>申請者名</th><th>日付</th><th>経費タイプ</th><th>経費詳細</th><th>金額</th></tr>`);
   Expense.findAll()
@@ -60,8 +58,8 @@ app.get('/', (req, res) => {
     });
 });
 
-app.get('/submit', (req, res) => {
-  const user = req.body.user || '名無しの権兵衛';
+app.get('/submit', (req: Express.Request, res: Express.Response) => {
+  const user = req!.session!.user || '名無しの権兵衛';
   res.send(`<h2>経費入力</h2><form action="/expense" method="post">申請者名:<input type="text" name="user_name" value="${user}"><br />日付:<input type="date" name="date"><br />経費タイプ:<input type="text" name="type"><br />経費詳細:<input type="text" name="description"><br />金額:<input type="number" name="amount"><br /><input type="submit" value="経費申請">`);
 });
 
