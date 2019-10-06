@@ -18,11 +18,13 @@ app.use(session({
 // ルーティング
 import index from './routes/index';
 import login from './routes/login';
-import expense from './routes/expense';
+import payment from './routes/expenses/payment';
+import submit from './routes/expenses/submit';
 
 app.use('/', index);
+app.use('/expenses/payment', payment);
 app.use('/login', login);
-app.use('/expense', expense);
+app.use('/expenses/submit', submit);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
