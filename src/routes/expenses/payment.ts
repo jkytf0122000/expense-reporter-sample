@@ -2,6 +2,7 @@ import Express from 'express';
 const router = Express.Router();
 import { Expense } from '../../models/expense';
 
+// GET /expenses/payment 元々、最初に開かれる画面だった部分
 router.get('/', (req: Express.Request, res: Express.Response): void => {
   const user = req!.session!.user || '名無しの権兵衛';
   res.writeHead(200, { "Content-Type": "text/html" });
