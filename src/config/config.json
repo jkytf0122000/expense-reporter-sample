@@ -4,6 +4,11 @@
     "storage": ".db.development.sql",
     "logging": false
   },
+  "test": {
+    "dialect": "sqlite",
+    "storage": ".db.development.sql",
+    "logging": false
+  },
   "production": {
     "use_env_variable": "DATABASE_URL"
   }

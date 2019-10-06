@@ -3,6 +3,7 @@ import { Sequelize, Model, DataTypes } from 'sequelize';
 // todo: データベース接続を定義する Typescript モジュール
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
+
 let sequelize;
 if (config.use_env_variable) {
   const config_url: any = process.env[config.use_env_variable];
