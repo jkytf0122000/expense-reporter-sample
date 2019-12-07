@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       user_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         foreignKey: true,
         references: {
@@ -20,7 +20,7 @@ module.exports = {
         onDelete: 'RESTRICT',
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(128)
       },
       created_at: {
         allowNull: false,
