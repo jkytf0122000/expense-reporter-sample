@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('user_details', {
+    return queryInterface.createTable('roles', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -13,30 +13,13 @@ module.exports = {
         allowNull: false,
         foreignKey: true,
         references: {
-          model: 'user_masters',
+          model: 'users',
           key: 'id',
         },
         onUpdate: 'RESTRICT',
         onDelete: 'RESTRICT',
       },
-      boss_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        foreignKey: true,
-        references: {
-          model: 'user_masters',
-          key: 'id',
-        },
-        onUpdate: 'RESTRICT',
-        onDelete: 'RESTRICT',
-      },
-      first_name: {
-        type: Sequelize.STRING
-      },
-      last_name: {
-        type: Sequelize.STRING
-      },
-      email: {
+      name: {
         type: Sequelize.STRING
       },
       created_at: {
@@ -50,6 +33,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('user_details');
+    return queryInterface.dropTable('roles');
   }
 };

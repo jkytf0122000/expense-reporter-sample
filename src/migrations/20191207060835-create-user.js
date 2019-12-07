@@ -1,25 +1,20 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('authentications', {
+    return queryInterface.createTable('users', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      user_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        foreignKey: true,
-        references: {
-          model: 'user_masters',
-          key: 'id',
-        },
-        onUpdate: 'RESTRICT',
-        onDelete: 'RESTRICT',
+      first_name: {
+        type: Sequelize.STRING
       },
-      name: {
+      last_name: {
+        type: Sequelize.STRING
+      },
+      email: {
         type: Sequelize.STRING
       },
       hash: {
@@ -27,6 +22,9 @@ module.exports = {
       },
       salt: {
         type: Sequelize.STRING
+      },
+      deleted_at: {
+        type: Sequelize.DATE
       },
       created_at: {
         allowNull: false,
@@ -39,6 +37,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('authentications');
+    return queryInterface.dropTable('users');
   }
 };
