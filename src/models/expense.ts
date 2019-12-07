@@ -1,4 +1,5 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
+import { User_master } from './user_masters';
 
 // todo: データベース接続を定義する Typescript モジュール
 const env = process.env.NODE_ENV || 'development';
@@ -15,6 +16,7 @@ if (config.use_env_variable) {
 class Expense extends Model {
   public id!: number;
   public user_name!: string;
+  public user_id!: number;
   public date!: Date;
   public type!: string;
   public description!: string | null;
@@ -35,6 +37,11 @@ Expense.init({
     allowNull: false,
     defaultValue: ''
   },
+  user_id: {
+    type: DataTypes.INTEGER.UNSIGNED,
+    allowNull: false,
+    //    allowNull: false,
+  },
   date: {
     type: DataTypes.DATE,
     allowNull: false
@@ -51,10 +58,12 @@ Expense.init({
     allowNull: false
   }
 }, {
-  tableName: 'expenses',
-  underscored: true,
-  sequelize: sequelize
-}
+    tableName: 'expenses',
+    underscored: true,
+    sequelize: sequelize
+  }
 );
+
+Expense.belongsTo(User_master, { targetKey: 'id' });
 
 export { Expense };
