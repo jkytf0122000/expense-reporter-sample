@@ -24,7 +24,6 @@ package ユーザ管理 as user_management {
     last_name
     email
     hash
-    salt
     created_at
     updated_at
     deleted_at

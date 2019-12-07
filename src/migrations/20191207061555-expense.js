@@ -4,15 +4,15 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.addColumn('expenses',
       'user_id', {
-        type: Sequelize.INTEGER,
-        foreignKey: true,
-        references: {
-          model: 'users',
-          key: 'id',
-        },
-        onUpdate: 'RESTRICT',
-        onDelete: 'RESTRICT',
-      }
+      type: Sequelize.UUID,
+      foreignKey: true,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+      onUpdate: 'RESTRICT',
+      onDelete: 'RESTRICT',
+    }
     );
   },
 

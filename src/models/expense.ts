@@ -1,5 +1,5 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
-import { User_master } from './user_masters';
+// import { User } from './users';
 
 // todo: データベース接続を定義する Typescript モジュール
 const env = process.env.NODE_ENV || 'development';
@@ -38,9 +38,8 @@ Expense.init({
     defaultValue: ''
   },
   user_id: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.UUID,
     allowNull: false,
-    //    allowNull: false,
   },
   date: {
     type: DataTypes.DATE,
@@ -58,12 +57,12 @@ Expense.init({
     allowNull: false
   }
 }, {
-    tableName: 'expenses',
-    underscored: true,
-    sequelize: sequelize
-  }
+  tableName: 'expenses',
+  underscored: true,
+  sequelize: sequelize
+}
 );
 
-Expense.belongsTo(User_master, { targetKey: 'id' });
+// Expense.belongsTo(User, { targetKey: 'id' });
 
 export { Expense };
