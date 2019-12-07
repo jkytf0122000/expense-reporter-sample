@@ -1,0 +1,74 @@
+@startuml
+
+package 請求システム as expense_system {
+  entity "請求" as expense {
+    + id [PK]
+    --
+    # user_id [FK]
+    user_name : 不要
+    data
+    type
+    description
+    amount
+    created_at
+    updated_at
+  }
+}
+
+package ユーザ管理 as user_management {
+  entity "ユーザマスタ" as user_master {
+    + id [PK]
+    --
+    created_at
+    updated_at
+    deleted_at
+  }
+
+  entity "認証" as authentication {
+    + id [PK]
+    --
+    # user_id [FK]
+    name
+    hash
+    salt
+    created_at
+    updated_at
+  }
+
+  entity "ユーザ詳細" as user_detail {
+    + id [PK]
+    --
+    # user_id [FK]
+    # boss_id [FK]
+    first_name
+    last_name
+    email
+    created_at
+    updated_at
+  }
+
+  entity "権限情報" as user_role {
+    + id [PK]
+    --
+    # user_id [FK]
+    # role_id [FK]
+    created_at
+    updated_at
+  }
+
+  entity "権限名" as role {
+    + id [PK]
+    --
+    name
+    created_at
+    updated_at
+  }
+}
+
+  user_master ||--|| authentication
+  user_master ||--|| user_detail
+  user_master ----|{ user_role
+  user_role   ||--|| role
+  user_master ||--o{ expense
+
+@enduml
