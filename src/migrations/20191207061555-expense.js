@@ -7,7 +7,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         foreignKey: true,
         references: {
-          model: 'user_masters',
+          model: 'users',
           key: 'id',
         },
         onUpdate: 'RESTRICT',
