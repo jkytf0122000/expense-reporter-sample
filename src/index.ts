@@ -4,10 +4,9 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-import bcrypt from 'bcrypt';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { User } from './models/user';
+import { Authentication } from './controllers/auth/index';
 
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,6 +19,7 @@ app.use(session({
     maxAge: 24 * 30 * 60 * 1000
   }
 }));
+
 // passport 初期化
 app.use(passport.initialize());
 app.use(passport.session());
@@ -28,36 +28,10 @@ app.use(passport.session());
 passport.use(new LocalStrategy({
   usernameField: 'user',
   passwordField: 'password'
-}, (username, password, done) => {
-  User.findOne({ where: { email: username } }).then(user => {
-    if (!user || !bcrypt.compareSync(password, user.hash))
-      return done(null, false);
-    return done(null, user.get());
-  })
-}));
+}, Authentication.verify));
 
-// passport 認証時のユーザ情報のセッションへの保存やセッションからの読み出し
-passport.serializeUser((user: User, done) => {
-  return done(null, user);
-});
-passport.deserializeUser((user: User, done) => {
-  User.findByPk(user.id).then(user => {
-    if (user) {
-      done(null, user.get());
-    } else {
-      done(false, null);
-    }
-  })
-});
-
-// ログインの強制
-app.use((req, res, next) => {
-  if (req.isAuthenticated())
-    return next();
-  if (req.url === '/' || req.url === '/login')
-    return next();
-  res.redirect('/login');
-});
+passport.serializeUser(Authentication.serializeUser);
+passport.deserializeUser(Authentication.deserializeUser);
 
 // ルーティング
 import index from './routes/index';
