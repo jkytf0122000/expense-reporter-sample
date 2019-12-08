@@ -5,11 +5,8 @@ import { Expense } from '../../models/expense';
 // GET /expenses/submit 入力フォーム
 router.post('/', (req: Express.Request, res: Express.Response): void => {
   Expense.create(req.body)
-    .then(() => {
+    .then(result => {
       res.redirect('/');
-    })
-    .catch(err => {
-      console.log(err);
     });
 });
 

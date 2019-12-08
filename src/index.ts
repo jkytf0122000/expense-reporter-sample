@@ -1,5 +1,6 @@
 import Express from 'express';
 const app = Express();
+import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
@@ -8,8 +9,9 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { User } from './models/user';
 
-app.use(cookieParser());
+app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use(session({
   secret: 'secret',
   resave: false,
@@ -39,9 +41,11 @@ passport.serializeUser((user: User, done) => {
 });
 passport.deserializeUser((user: User, done) => {
   User.findByPk(user.id).then(user => {
-    if (user)
+    if (user) {
       done(null, user.get());
-    done(false, null);
+    } else {
+      done(false, null);
+    }
   })
 });
 
@@ -64,6 +68,23 @@ app.use('/', index);
 app.use('/expenses/payment', payment);
 app.use('/login', login);
 app.use('/expenses/submit', submit);
+
+app.use((req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+  var err: any = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+// error handler
+app.use((err: any, req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.send('エラーが発生しました');
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
