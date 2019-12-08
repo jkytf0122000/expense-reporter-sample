@@ -2,10 +2,10 @@ import bcrypt from 'bcrypt';
 import { User } from "../../models/user";
 
 export class Authentication {
-  static serializeUser(user: User, done: any) {
+  static serializeUser(user: any, done: any) {
     return done(null, user);
   }
-  static deserializeUser(user: User, done: any) {
+  static deserializeUser(user: any, done: any) {
     User.findByPk(user.id)
       .then(user => {
         return done(null, user);

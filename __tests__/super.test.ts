@@ -10,8 +10,8 @@ describe('Root', () => {
 
 describe('Login', () => {
   const userCredentials = {
-    user: 'user01',
-    password: 'p@ssw0rd'
+    user: 'test@example.com',
+    password: 'password'
   };
   it('login form is varid', async () => {
     const response = await request(app).get("/login");
@@ -21,6 +21,7 @@ describe('Login', () => {
     const response = await request(app).post("/login")
       .send(userCredentials);
     expect(response.status).toBe(302);
+    expect(response.header['location']).toBe('/');
   })
 });
 
