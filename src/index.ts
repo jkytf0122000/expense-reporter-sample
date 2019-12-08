@@ -36,6 +36,7 @@ passport.use(new LocalStrategy({
   })
 }));
 
+// passport 認証時のユーザ情報のセッションへの保存やセッションからの読み出し
 passport.serializeUser((user: User, done) => {
   return done(null, user);
 });
@@ -49,7 +50,7 @@ passport.deserializeUser((user: User, done) => {
   })
 });
 
-// ログインチェック
+// ログインの強制
 app.use((req, res, next) => {
   if (req.isAuthenticated())
     return next();
