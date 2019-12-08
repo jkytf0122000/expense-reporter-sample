@@ -17,7 +17,7 @@ class Expense extends Model {
 
 Expense.init({
   id: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
     allowNull: false,
     primaryKey: true,
@@ -42,7 +42,7 @@ Expense.init({
     type: DataTypes.TEXT,
   },
   amount: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.INTEGER,
     allowNull: false
   }
 }, {

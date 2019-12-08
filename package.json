@@ -1,10 +1,10 @@
 {
   "name": "webapp",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "This application is sample code of Shell Script Magazine",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "ts-node ./src/index.ts",
+    "dev": "ts-node --files ./src/index",
     "test": "jest",
     "clean": "rimraf dist/*",
     "migrate": "sequelize db:migrate",

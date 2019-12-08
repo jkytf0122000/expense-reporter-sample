@@ -1,7 +1,7 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import * as config from '../config/database';
 
-const sequelize:Sequelize = config.default();
+const sequelize: Sequelize = config.default();
 
 class Role extends Model {
   public id!: number;
@@ -13,7 +13,7 @@ class Role extends Model {
 
 Role.init({
   id: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
     allowNull: false,
     primaryKey: true,
