@@ -29,7 +29,8 @@ export class Authentication {
     User.findOne(
       {
         where: {
-          email: username
+          email: username,
+          deleted_at: null
         }
       }
     ).then(user => {
