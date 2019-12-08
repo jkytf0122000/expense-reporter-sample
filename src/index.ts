@@ -4,8 +4,6 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
 import { Authentication } from './controllers/auth/index';
 
 app.use(logger('dev'));
@@ -20,18 +18,17 @@ app.use(session({
   }
 }));
 
-// passport 初期化
-app.use(passport.initialize());
-app.use(passport.session());
+Authentication.initialize(app);
+Authentication.setStrategy();
 
-// passport の認証定義
-passport.use(new LocalStrategy({
-  usernameField: 'user',
-  passwordField: 'password'
-}, Authentication.verify));
-
-passport.serializeUser(Authentication.serializeUser);
-passport.deserializeUser(Authentication.deserializeUser);
+// ログインの強制
+app.use((req, res, next) => {
+  if (req.isAuthenticated())
+    return next();
+  if (req.url === '/' || req.url === '/login')
+    return next();
+  res.redirect('/login');
+});
 
 // ルーティング
 import index from './routes/index';

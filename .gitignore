@@ -96,3 +96,4 @@ typings/
 /dist
 /working
 junit.xml
+.vscode

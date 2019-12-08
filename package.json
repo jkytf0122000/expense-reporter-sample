@@ -1,6 +1,6 @@
 {
   "name": "webapp",
-  "version": "0.4.2",
+  "version": "0.4.5",
   "description": "This application is sample code of Shell Script Magazine",
   "main": "dist/index.js",
   "scripts": {
