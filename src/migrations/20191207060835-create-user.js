@@ -24,6 +24,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       hash: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       deleted_at: {

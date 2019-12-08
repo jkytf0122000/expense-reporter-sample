@@ -1,24 +1,15 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
+import * as config from '../config/database';
 
-// todo: データベース接続を定義する Typescript モジュール
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-
-let sequelize;
-if (config.use_env_variable) {
-  const config_url: any = process.env[config.use_env_variable];
-  sequelize = new Sequelize(config_url, config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+const sequelize: Sequelize = config.default();
 
 class Expense extends Model {
   public id!: number;
-  public user_name!: string;
+  public user_name?: string;
   public user_id!: number;
   public date!: Date;
   public type!: string;
-  public description!: string | null;
+  public description?: string | null;
   public amount!: number;
   public readonly careated_at!: Date;
   public readonly updated_at!: Date;
@@ -33,7 +24,6 @@ Expense.init({
   },
   user_name: {
     type: DataTypes.STRING(256),
-    allowNull: false,
     defaultValue: ''
   },
   user_id: {

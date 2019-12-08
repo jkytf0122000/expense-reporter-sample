@@ -4,9 +4,10 @@ import { Expense } from '../../models/expense';
 
 // GET /expenses/payment 元々、最初に開かれる画面だった部分
 router.get('/', (req: Express.Request, res: Express.Response): void => {
-  const user = req!.session!.user || '名無しの権兵衛';
+  const user_name = req!.user!.email;
+
   res.writeHead(200, { "Content-Type": "text/html" });
-  res.write(`<h1>Hello ${user}</h1><table><tr><th>ID</th><th>申請者名</th><th>日付</th><th>経費タイプ</th><th>経費詳細</th><th>金額</th></tr>`);
+  res.write(`<h1>Hello ${user_name}</h1><table><tr><th>ID</th><th>申請者名</th><th>日付</th><th>経費タイプ</th><th>経費詳細</th><th>金額</th></tr>`);
   Expense.findAll()
     .then(results => {
       for (let i in results) {

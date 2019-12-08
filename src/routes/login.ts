@@ -1,5 +1,6 @@
 import Express from 'express';
 const router = Express.Router();
+import passport from 'passport';
 
 // ユーザー&パスワード
 const users = {
@@ -13,13 +14,11 @@ router.get('/', (req: Express.Request, res: Express.Response): void => {
 });
 
 // POST / ユーザーの認証処理
-router.post('/', (req: Express.Request, res: Express.Response): void => {
-  if (eval("users." + req.body.user) === req.body.password) {
-    if (req.session) {
-      req.session.user = req.body.user;
-    }
-  }
-  res.redirect('/');
-});
+router.post('/',
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+  })
+);
 
 export default router;
