@@ -6,7 +6,7 @@ package 請求システム as expense_system {
     --
     # user_id [FK]
     user_name : 不要
-    data
+    date
     type
     description
     amount
