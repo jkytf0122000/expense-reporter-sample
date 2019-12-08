@@ -24,6 +24,8 @@
     "gulp": "^4.0.2",
     "gulp-cli": "^2.2.0",
     "gulp-typescript": "^5.0.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "pg": "^7.12.1",
     "rimraf": "^3.0.0",
     "sequelize": "^5.18.0",

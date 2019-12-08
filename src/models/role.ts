@@ -12,54 +12,37 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-class Expense extends Model {
+class Role extends Model {
   public id!: number;
-  public user_name!: string;
-  public user_id!: number;
-  public date!: Date;
-  public type!: string;
-  public description!: string | null;
-  public amount!: number;
+  public user_id!: string;
+  public name!: string;
   public readonly careated_at!: Date;
   public readonly updated_at!: Date;
 }
 
-Expense.init({
+Role.init({
   id: {
     type: DataTypes.INTEGER.UNSIGNED,
     autoIncrement: true,
     allowNull: false,
     primaryKey: true,
   },
-  user_name: {
-    type: DataTypes.STRING(256),
-    allowNull: false,
-    defaultValue: ''
-  },
   user_id: {
     type: DataTypes.UUID,
     allowNull: false,
+    validate: {
+      isUUID: 4
+    }
   },
-  date: {
-    type: DataTypes.DATE,
-    allowNull: false
-  },
-  type: {
-    type: DataTypes.STRING(256),
-    allowNull: false
-  },
-  description: {
-    type: DataTypes.TEXT,
-  },
-  amount: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false
+  name: {
+    type: DataTypes.STRING(128),
+    allowNull: false,
+    defaultValue: ''
   }
 }, {
-  tableName: 'expenses',
+  tableName: 'roles',
   underscored: true,
   sequelize: sequelize
-}
-);
+});
 
-export { Expense };
+export { Role };

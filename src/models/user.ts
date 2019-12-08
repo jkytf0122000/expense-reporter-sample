@@ -1,5 +1,6 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import { Expense } from './expense';
+import { Role } from './role';
 
 // todo: データベース接続を定義する Typescript モジュール
 const env = process.env.NODE_ENV || 'development';
@@ -66,6 +67,12 @@ User.init({
   sequelize: sequelize
 }
 );
+
+User.hasMany(Role, {
+  sourceKey: 'id',
+  foreignKey: 'user_id',
+  as: 'roles'
+})
 
 User.hasMany(Expense, {
   sourceKey: 'id',
