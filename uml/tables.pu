@@ -1,7 +1,7 @@
 @startuml
 
-package 請求システム as expense_system {
-  entity "請求" as expense {
+package 経費清算 as expense_system {
+  entity "経費精算" as expense {
     + id [PK]
     --
     # user_id [FK]
@@ -15,8 +15,8 @@ package 請求システム as expense_system {
   }
 }
 
-package ユーザ管理 as user_management {
-  entity "ユーザマスタ" as user {
+package ユーザー管理 as user_management {
+  entity "ユーザーマスター" as user {
     + id [PK]
     --
     # boss_id [FK]
