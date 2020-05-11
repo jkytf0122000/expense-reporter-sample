@@ -1,0 +1,21 @@
+@startuml
+
+actor User
+actor Approver
+
+User <|-- Approver
+
+rectangle Common {
+  User -> (Login)
+  Approver -> (Login)
+}
+
+rectangle Expense {
+  User -> (Submit)
+  Approver -> (Submit)
+
+  Approver -> (Payment)
+}
+
+@enduml
+
