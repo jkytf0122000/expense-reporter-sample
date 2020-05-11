@@ -1,6 +1,6 @@
 {
   "name": "webapp",
-  "version": "0.4.9",
+  "version": "0.6.0",
   "description": "This application is sample code of Shell Script Magazine",
   "main": "dist/index.js",
   "scripts": {
@@ -13,47 +13,47 @@
     "start": "node ."
   },
   "engines": {
-    "node": "12.14.1"
+    "node": "12.16.3"
   },
   "author": "しょっさん",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^3.0.7",
-    "cookie-parser": "^1.4.4",
+    "bcrypt": "^3.0.8",
+    "cookie-parser": "^1.4.5",
     "express": "^4.16.4",
-    "express-session": "^1.17.0",
+    "express-session": "^1.17.1",
     "gulp": "^4.0.2",
     "gulp-cli": "^2.2.0",
     "gulp-typescript": "^5.0.1",
-    "morgan": "^1.9.1",
+    "morgan": "^1.10.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "pg": "^7.18.1",
-    "rimraf": "^3.0.1",
-    "sequelize": "^5.21.3",
+    "pg": "^7.18.2",
+    "rimraf": "^3.0.2",
+    "sequelize": "^5.21.8",
     "sequelize-cli": "^5.5.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
-    "@types/bluebird": "^3.5.29",
+    "@types/bluebird": "^3.5.30",
     "@types/cookie-parser": "^1.4.2",
-    "@types/express": "^4.17.2",
-    "@types/express-session": "^1.15.16",
+    "@types/express": "^4.17.6",
+    "@types/express-session": "^1.17.0",
     "@types/jest": "^24.9.1",
-    "@types/morgan": "^1.7.37",
-    "@types/node": "^12.12.26",
-    "@types/passport": "^1.0.2",
+    "@types/morgan": "^1.9.0",
+    "@types/node": "^12.12.38",
+    "@types/passport": "^1.0.3",
     "@types/passport-local": "^1.0.33",
-    "@types/pg": "^7.14.1",
-    "@types/supertest": "^2.0.8",
+    "@types/pg": "^7.14.3",
+    "@types/supertest": "^2.0.9",
     "@types/validator": "^10.11.3",
     "jest": "^24.9.0",
     "jest-junit": "^8.0.0",
-    "sqlite3": "^4.1.1",
+    "sqlite3": "^4.2.0",
     "supertest": "^4.0.2",
     "ts-jest": "^24.3.0",
-    "ts-loader": "^6.2.1",
-    "ts-node": "^8.6.2",
-    "typescript": "^3.7.5"
+    "ts-loader": "^6.2.2",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.8.3"
   }
 }
