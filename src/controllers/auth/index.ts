@@ -1,7 +1,7 @@
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 import { User } from "../../models/user";
-import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
 
 export class Authentication {
   static initialize(app: any) {
@@ -17,7 +17,7 @@ export class Authentication {
   }
   static deserializeUser(user: any, done: any) {
     User.findByPk(user.id)
-      .then(user => {
+      .then((user) => {
         return done(null, user);
       })
       .catch(() => {
@@ -26,14 +26,12 @@ export class Authentication {
   }
 
   static verify(username: string, password: string, done: any) {
-    User.findOne(
-      {
-        where: {
-          email: username,
-          deleted_at: null
-        }
-      }
-    ).then(user => {
+    User.findOne({
+      where: {
+        email: username,
+        deleted_at: null,
+      },
+    }).then((user) => {
       if (!user || !bcrypt.compareSync(password, user.hash))
         return done(null, false);
       return done(null, user.get());
@@ -43,8 +41,8 @@ export class Authentication {
   static setStrategy() {
     // passport の認証定義
     const field = {
-      usernameField: 'user',
-      passwordField: 'password'
+      usernameField: "user",
+      passwordField: "password",
     };
     passport.use(new LocalStrategy(field, this.verify));
   }
