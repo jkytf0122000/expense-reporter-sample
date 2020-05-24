@@ -7,14 +7,16 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:12.13.1
+      - image: circleci/node:12.16.3
+        environment:
+          DATABASE_URL: postgres://testing@localhost:5432/sample
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
+      - image: circleci/postgres:latest
+        environment:
+          POSTGRES_USER: testing
+          POSTGRES_DB: sample
 
-    working_directory: ~/repo
+        working_directory: ~/repo
 
     steps:
       - checkout
