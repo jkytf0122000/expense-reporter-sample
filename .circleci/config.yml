@@ -11,6 +11,7 @@ jobs:
         environment:
           DATABASE_URL: postgres://testing:password@localhost:5432/sample
 
+      # local postgresql server
       - image: circleci/postgres:latest
         environment:
           POSTGRES_USER: testing
