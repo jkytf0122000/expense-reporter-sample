@@ -9,11 +9,12 @@ jobs:
       # specify the version you desire here
       - image: circleci/node:12.16.3
         environment:
-          DATABASE_URL: postgres://testing@localhost:5432/sample
+          DATABASE_URL: postgres://testing:password@localhost:5432/sample
 
       - image: circleci/postgres:latest
         environment:
           POSTGRES_USER: testing
+          POSTGRES_PASSWORD: password
           POSTGRES_DB: sample
 
         working_directory: ~/repo
