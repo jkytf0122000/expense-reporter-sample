@@ -56,7 +56,7 @@ describe("authentication", () => {
       done();
     };
 
-    Authentication.verify("test@example.com", "password", callback);
+    Authentication.verifyLocal("test@example.com", "password", callback);
   });
 
   it("verify - negative", (done) => {
@@ -66,7 +66,7 @@ describe("authentication", () => {
       done();
     };
 
-    Authentication.verify("test@example.com", "incorrect", callback);
+    Authentication.verifyLocal("test@example.com", "incorrect", callback);
   });
 
   it("verify - deleted", (done) => {
@@ -76,6 +76,6 @@ describe("authentication", () => {
       done();
     };
 
-    Authentication.verify("deleted@example.com", "password", callback);
+    Authentication.verifyLocal("deleted@example.com", "password", callback);
   });
 });
