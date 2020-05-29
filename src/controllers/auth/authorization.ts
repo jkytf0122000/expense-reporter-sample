@@ -7,7 +7,6 @@ const ExtractJWT = passportJWT.ExtractJwt;
 const JWTStrategy = passportJWT.Strategy;
 
 export class Authorization {
-
   static verifyJWT(jwt_payload: any, done: any) {
     User.findOne({
       where: {

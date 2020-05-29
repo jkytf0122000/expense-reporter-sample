@@ -1,58 +1,13 @@
-import { Authentication } from "../src/controllers/auth/index";
+import { Authentication } from "../src/controllers/auth/authentication";
+import jwt from "jsonwebtoken";
 import { User } from "../src/models/user";
 
 describe("authentication", () => {
-  it("serialize", (done) => {
-    const callback = (arg: any, user: User) => {
-      expect(user.id).toBe("811fcb5d-7128-4aa6-bfee-f1a8d3302cda");
-      expect(user.email).toBe("test@example.com");
-      expect(arg).toBeNull();
-      done();
-    };
-    const user_sample = {
-      id: "811fcb5d-7128-4aa6-bfee-f1a8d3302cda",
-      last_name: "test",
-      email: "test@example.com",
-    };
-
-    Authentication.serializeUser(user_sample, callback);
-  });
-
-  it("deserialize - positive", (done) => {
-    const callback = (arg: any, user: any) => {
-      expect(arg).toBeNull();
-      expect(user.id).toBe("811fcb5d-7128-4aa6-bfee-f1a8d3302cda");
-      done();
-    };
-    const user_sample = {
-      id: "811fcb5d-7128-4aa6-bfee-f1a8d3302cda",
-      last_name: "test",
-      email: "test@example.com",
-    };
-
-    Authentication.deserializeUser(user_sample, callback);
-  });
-  it("deserialize - negative", (done) => {
-    const callback = (arg: any, user: any) => {
-      expect(arg).toBeNull();
-      expect(user).toBe(false);
-      done();
-    };
-    const user_sample = {
-      id: "",
-      last_name: "test",
-      email: "test@example.com",
-    };
-
-    Authentication.deserializeUser(user_sample, callback);
-  });
-
   it("verify - positive", (done) => {
-    const callback = (arg: any, user: any) => {
+    const callback = (arg: boolean | null, token: string) => {
       expect(arg).toBeNull();
-      expect(user.id).toBe("811fcb5d-7128-4aa6-bfee-f1a8d3302cda");
-      expect(user.email).toBe("test@example.com");
-      expect(user.last_name).toBe("test");
+      const payload: any = jwt.verify(token, process.env.SECRET || "secret");
+      expect(payload.email).toBe("test@example.com");
       done();
     };
 
@@ -60,9 +15,8 @@ describe("authentication", () => {
   });
 
   it("verify - negative", (done) => {
-    const callback = (arg: any, user: any) => {
-      expect(arg).toBeNull();
-      expect(user).toBe(false);
+    const callback = (arg: boolean | null, token: string) => {
+      expect(arg).toBe(true);
       done();
     };
 
@@ -70,9 +24,8 @@ describe("authentication", () => {
   });
 
   it("verify - deleted", (done) => {
-    const callback = (arg: any, user: any) => {
-      expect(arg).toBeNull();
-      expect(user).toBe(false);
+    const callback = (arg: boolean | null, token: string) => {
+      expect(arg).toBe(true);
       done();
     };
 
