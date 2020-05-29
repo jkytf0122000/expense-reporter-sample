@@ -1,6 +1,5 @@
 import { Authentication } from "../src/controllers/auth/authentication";
 import jwt from "jsonwebtoken";
-import { User } from "../src/models/user";
 
 describe("authentication", () => {
   it("verify - positive", (done) => {
