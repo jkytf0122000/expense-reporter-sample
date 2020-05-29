@@ -9,7 +9,7 @@ router.post(
     passport.authenticate("local", (err, token) => {
       if (err) res.status(401).json(err);
 
-      res.status(200).send(token);
+      res.status(200).json({ token: token });
     })(req, res, next);
   }
 );

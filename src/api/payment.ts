@@ -5,7 +5,8 @@ const router = Express.Router();
 router.get(
   "/",
   (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
-    res.status(200).send('id: "success"');
+    console.log(req.user);
+    res.status(200).json({ id: "success" });
   }
 );
 

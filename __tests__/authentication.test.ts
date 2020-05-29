@@ -7,6 +7,7 @@ describe("authentication", () => {
       expect(arg).toBeNull();
       const payload: any = jwt.verify(token, process.env.SECRET || "secret");
       expect(payload.email).toBe("test@example.com");
+      expect(payload.id).toBe("811fcb5d-7128-4aa6-bfee-f1a8d3302cda");
       done();
     };
 

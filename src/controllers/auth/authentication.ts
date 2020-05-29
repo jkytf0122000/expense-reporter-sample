@@ -4,7 +4,6 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import jwt from "jsonwebtoken";
 
-
 export class Authentication {
   static initialize(app: any) {
     // passport 初期化
@@ -15,7 +14,7 @@ export class Authentication {
     // passport.deserializeUser(this.deserializeUser);
   }
 
-/*
+  /*
   static serializeUser(user: any, done: any) {
     return done(null, user);
   }
@@ -28,7 +27,7 @@ export class Authentication {
         return done(null, false);
       });
   }
-*/
+  */
 
   static verifyLocal(username: string, password: string, done: any) {
     User.findOne({
@@ -45,7 +44,11 @@ export class Authentication {
         expiresIn: process.env.EXPIRES,
       };
       const secret: string = process.env.SECRET || "secret";
-      const token: string = jwt.sign({ email: user.email }, secret, opts);
+      const token: string = jwt.sign(
+        { email: user.email, id: user.id },
+        secret,
+        opts
+      );
       return done(null, token);
     });
   }
