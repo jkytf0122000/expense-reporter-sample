@@ -4,8 +4,8 @@ import logger from "morgan";
 // import bodyParser from "body-parser";
 // import cookieParser from "cookie-parser";
 // import session from "express-session";
-import { Authentication } from "./controllers/auth/index";
-import { Authorization } from "./controllers/auth/authorize";
+import { Authentication } from "./controllers/auth/authentication";
+import { Authorization } from "./controllers/auth/authorization";
 
 app.use(logger("dev"));
 // app.use(bodyParser.urlencoded({ extended: false }));
@@ -29,7 +29,7 @@ app.use(
 Authentication.initialize(app);
 // Strategy を２つ(user/password認証, JWT認証済み)利用
 Authentication.setLocalStrategy();
-Authentication.setJWTStrategy();
+Authorization.setJWTStrategy();
 
 // ログインの強制
 // app.use((req, res, next) => {
@@ -60,7 +60,7 @@ app.use("/expenses/submit", submit);
 // API
 app.use("/api/auth", auth);
 // app.use("/api/expense", Authorization.jwt, submit);
-app.use("/api/payment", Authorization.jwt, payment);
+app.use("/api/payment", Authorization.isAuthorized, payment);
 
 app.use(
   (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {

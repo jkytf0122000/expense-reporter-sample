@@ -1,12 +1,9 @@
 import bcrypt from "bcrypt";
 import { User } from "../../models/user";
 import passport from "passport";
-import passportJWT from "passport-jwt";
 import { Strategy as LocalStrategy } from "passport-local";
 import jwt from "jsonwebtoken";
 
-const ExtractJWT = passportJWT.ExtractJwt;
-const JWTStrategy = passportJWT.Strategy;
 
 export class Authentication {
   static initialize(app: any) {
@@ -17,6 +14,8 @@ export class Authentication {
     // passport.serializeUser(this.serializeUser);
     // passport.deserializeUser(this.deserializeUser);
   }
+
+/*
   static serializeUser(user: any, done: any) {
     return done(null, user);
   }
@@ -29,6 +28,7 @@ export class Authentication {
         return done(null, false);
       });
   }
+*/
 
   static verifyLocal(username: string, password: string, done: any) {
     User.findOne({
@@ -50,18 +50,6 @@ export class Authentication {
     });
   }
 
-  static verifyJWT(jwt_payload: any, done: any) {
-    User.findOne({
-      where: {
-        email: jwt_payload.email,
-        deleted_at: null,
-      },
-    }).then((user) => {
-      if (!user) return done(null, false);
-      return done(null, user.get());
-    });
-  }
-
   static setLocalStrategy() {
     // passport.local の認証定義
     const field = {
@@ -69,16 +57,5 @@ export class Authentication {
       passwordField: "password",
     };
     passport.use(new LocalStrategy(field, this.verifyLocal));
-  }
-
-  static setJWTStrategy() {
-    // passport.jwt の認証定義
-    const field = {
-      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-      issuer: process.env.ISSUER,
-      audience: process.env.AUDIENCE,
-      secretOrKey: process.env.SECRET || "secret",
-    };
-    passport.use(new JWTStrategy(field, this.verifyJWT));
   }
 }
