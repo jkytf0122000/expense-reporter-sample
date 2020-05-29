@@ -5,8 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "ts-node --files ./src/index",
-    "prepare": "sequelize db:seed:all",
-    "test": "jest --detectOpenHandles --forceExit",
+    "test": "sequelize db:seed:all && jest --detectOpenHandles --forceExit",
     "clean": "rimraf dist/*",
     "cleandb": "sequelize db:seed:undo:all",
     "migrate": "sequelize db:migrate",

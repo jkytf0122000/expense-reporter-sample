@@ -40,7 +40,5 @@ jobs:
       # npm migrate
       - run: npm run migrate
 
-      - run: npm run prepare
-
       # run tests!
       - run: npm test
