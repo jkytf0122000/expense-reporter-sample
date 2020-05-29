@@ -5,9 +5,10 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "ts-node --files ./src/index",
-    "prepare": " sequelize db:seed:undo:all || sequelize db:seed:all",
+    "prepare": "sequelize db:seed:all",
     "test": "jest --detectOpenHandles --forceExit",
     "clean": "rimraf dist/*",
+    "cleandb": "sequelize db:seed:undo:all",
     "migrate": "sequelize db:migrate",
     "transpile": "gulp",
     "build": "npm run clean && npm run migrate && npm run transpile",
