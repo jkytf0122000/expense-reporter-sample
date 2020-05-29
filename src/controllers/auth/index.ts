@@ -14,8 +14,8 @@ export class Authentication {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    passport.serializeUser(this.serializeUser);
-    passport.deserializeUser(this.deserializeUser);
+    // passport.serializeUser(this.serializeUser);
+    // passport.deserializeUser(this.deserializeUser);
   }
   static serializeUser(user: any, done: any) {
     return done(null, user);
@@ -53,7 +53,7 @@ export class Authentication {
   static verifyJWT(jwt_payload: any, done: any) {
     User.findOne({
       where: {
-        email: jwt_payload.username,
+        email: jwt_payload.email,
         deleted_at: null,
       },
     }).then((user) => {

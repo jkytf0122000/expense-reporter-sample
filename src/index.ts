@@ -39,22 +39,27 @@ Authentication.setJWTStrategy();
 // });
 
 // ルーティング
+/*
 import index from "./routes/index";
 import login from "./routes/login";
 import payment from "./routes/expenses/payment";
 import submit from "./routes/expenses/submit";
+*/
 
 // API用ルーティング
 import auth from "./api/auth";
+import payment from "./api/payment";
 
+/*
 app.use("/", index);
 app.use("/expenses/payment", payment);
 app.use("/login", login);
 app.use("/expenses/submit", submit);
+*/
 
 // API
 app.use("/api/auth", auth);
-app.use("/api/expense", Authorization.jwt, submit);
+// app.use("/api/expense", Authorization.jwt, submit);
 app.use("/api/payment", Authorization.jwt, payment);
 
 app.use(
