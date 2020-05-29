@@ -1,5 +1,6 @@
 import { Authorization } from "../src/controllers/auth/authorization";
 import { User } from "../src/models/user";
+import { Request } from "express";
 
 describe("authorization", () => {
   let payload = {
@@ -7,6 +8,8 @@ describe("authorization", () => {
     iss: process.env.ISSUER,
     aud: process.env.AUDIENCE,
   };
+
+  let req: Request;
 
   it("verify - positive", (done) => {
     const callback = (arg: boolean | null, user: User) => {
@@ -16,7 +19,7 @@ describe("authorization", () => {
     };
 
     payload.email = "test@example.com";
-    Authorization.verifyJWT(payload, callback);
+    Authorization.verifyJWT(req, payload, callback);
   });
 
   it("verify - negative", (done) => {
@@ -26,7 +29,7 @@ describe("authorization", () => {
     };
 
     payload.email = "incorrect@example.com";
-    Authorization.verifyJWT(payload, callback);
+    Authorization.verifyJWT(req, payload, callback);
   });
 
   it("verify - deleted", (done) => {
@@ -36,6 +39,6 @@ describe("authorization", () => {
     };
 
     payload.email = "deleted@example.com";
-    Authorization.verifyJWT(payload, callback);
+    Authorization.verifyJWT(req, payload, callback);
   });
 });

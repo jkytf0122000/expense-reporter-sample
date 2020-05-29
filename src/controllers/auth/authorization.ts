@@ -7,7 +7,7 @@ const ExtractJWT = passportJWT.ExtractJwt;
 const JWTStrategy = passportJWT.Strategy;
 
 export class Authorization {
-  static verifyJWT(jwt_payload: any, done: any) {
+  static verifyJWT(req: Request, jwt_payload: any, done: any) {
     User.findOne({
       where: {
         email: jwt_payload.email,
@@ -15,6 +15,8 @@ export class Authorization {
       },
     }).then((user) => {
       if (!user) return done(null, false);
+
+      req.user = user;
       return done(null, user.get());
     });
   }
@@ -26,6 +28,7 @@ export class Authorization {
       issuer: process.env.ISSUER,
       audience: process.env.AUDIENCE,
       secretOrKey: process.env.SECRET || "secret",
+      passReqToCallback: true,
     };
     passport.use(new JWTStrategy(field, this.verifyJWT));
   }
