@@ -35,22 +35,25 @@ export class Authentication {
         email: username,
         deleted_at: null,
       },
-    }).then((user) => {
-      if (!user || !bcrypt.compareSync(password, user.hash))
+    })
+      .then((user) => {
+        if (user && bcrypt.compareSync(password, user.hash)) {
+          const opts = {
+            issuer: process.env.ISSUER,
+            audience: process.env.AUDIENCE,
+            expiresIn: process.env.EXPIRES,
+          };
+          const secret: string = process.env.SECRET || "secret";
+          const token: string = jwt.sign(
+            { email: user.email, id: user.id },
+            secret,
+            opts
+          );
+          return done(null, token);
+        }
         return done(true, "authentication error");
-      const opts = {
-        issuer: process.env.ISSUER,
-        audience: process.env.AUDIENCE,
-        expiresIn: process.env.EXPIRES,
-      };
-      const secret: string = process.env.SECRET || "secret";
-      const token: string = jwt.sign(
-        { email: user.email, id: user.id },
-        secret,
-        opts
-      );
-      return done(null, token);
-    });
+      })
+      .catch((err) => done(true, err));
   }
 
   static setLocalStrategy() {
