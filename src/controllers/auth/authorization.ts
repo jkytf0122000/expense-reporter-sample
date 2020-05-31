@@ -1,12 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { User } from "../../models/user";
 import passport from "passport";
-import passportJWT from "passport-jwt";
-
-const ExtractJWT = passportJWT.ExtractJwt;
-const JWTStrategy = passportJWT.Strategy;
+import { Strategy as JWTStrategy, ExtractJwt } from "passport-jwt";
 
 export class Authorization {
+  // JWT トークンで該当するユーザの有無をチェック
   static verifyJWT(req: Request, jwt_payload: any, done: any) {
     User.findOne({
       where: {
@@ -21,10 +19,10 @@ export class Authorization {
     });
   }
 
+  // JWT Strategyのの定義
   static setJWTStrategy() {
-    // passport.jwt の認証定義
     const field = {
-      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       issuer: process.env.ISSUER,
       audience: process.env.AUDIENCE,
       secretOrKey: process.env.SECRET || "secret",
@@ -33,6 +31,7 @@ export class Authorization {
     passport.use(new JWTStrategy(field, this.verifyJWT));
   }
 
+  // 認可チェック
   static isAuthorized(req: Request, res: Response, next: NextFunction) {
     passport.authenticate("jwt", { session: false }, (err, user) => {
       if (err) {
