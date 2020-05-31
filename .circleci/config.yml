@@ -7,10 +7,11 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:12.16.3
+      - image: circleci/node:12.17.0
         environment:
           DATABASE_URL: postgres://testing:password@localhost:5432/sample
 
+      # local postgresql server
       - image: circleci/postgres:latest
         environment:
           POSTGRES_USER: testing

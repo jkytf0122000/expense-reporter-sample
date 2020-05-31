@@ -1,45 +1,34 @@
 import Express from "express";
 const app = Express();
 import logger from "morgan";
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-import session from "express-session";
-import { Authentication } from "./controllers/auth/index";
+import { Authentication } from "./controllers/auth/authentication";
+import { Authorization } from "./controllers/auth/authorization";
 
 app.use(logger("dev"));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(
-  session({
-    secret: "secret",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 24 * 30 * 60 * 1000,
-    },
-  })
-);
+app.use(Express.json());
+app.use(Express.urlencoded({ extended: true }));
 
 Authentication.initialize(app);
-Authentication.setStrategy();
+// Strategy を２つ(user/password認証, JWT認可)利用
+Authentication.setLocalStrategy();
+Authorization.setJWTStrategy();
 
-// ログインの強制
-app.use((req, res, next) => {
-  if (req.isAuthenticated()) return next();
-  if (req.url === "/" || req.url === "/login") return next();
-  res.redirect("/login");
-});
+// API用ルーティング
+import auth from "./api/auth";
+import payment from "./api/payment";
+import expense from "./api/expense";
 
-// ルーティング
-import index from "./routes/index";
-import login from "./routes/login";
-import payment from "./routes/expenses/payment";
-import submit from "./routes/expenses/submit";
-
+/*
 app.use("/", index);
 app.use("/expenses/payment", payment);
 app.use("/login", login);
 app.use("/expenses/submit", submit);
+*/
+
+// API
+app.use("/api/auth", auth);
+app.use("/api/expense", Authorization.isAuthorized, expense);
+app.use("/api/payment", Authorization.isAuthorized, payment);
 
 app.use(
   (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
