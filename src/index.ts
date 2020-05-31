@@ -23,6 +23,8 @@ app.use(
 Authentication.initialize(app);
 Authentication.setStrategy();
 
+app.use(Express.static("htdocs"));
+
 // ログインの強制
 app.use((req, res, next) => {
   if (req.isAuthenticated()) return next();
@@ -36,7 +38,7 @@ import login from "./routes/login";
 import payment from "./routes/expenses/payment";
 import submit from "./routes/expenses/submit";
 
-app.use("/", index);
+// app.use("/", index);
 app.use("/expenses/payment", payment);
 app.use("/login", login);
 app.use("/expenses/submit", submit);
