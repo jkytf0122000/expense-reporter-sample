@@ -30,6 +30,8 @@ export class Authentication {
   */
 
   static verifyLocal(username: string, password: string, done: any) {
+    console.log(`username = ${username}`);
+    console.log(`password=${password}`);
     User.findOne({
       where: {
         email: username,
