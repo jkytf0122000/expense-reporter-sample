@@ -1,5 +1,4 @@
-const baseUrl =
-  "https://virtserver.swaggerhub.com/sho7650/ExpenseMockServices/0.7.0";
+const baseUrl = "";
 
 const getPayments = function (callback) {
   axios
