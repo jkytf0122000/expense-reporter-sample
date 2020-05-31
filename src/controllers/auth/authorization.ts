@@ -16,7 +16,7 @@ export class Authorization {
     }).then((user) => {
       if (!user) return done(null, false);
 
-      req.user = user;
+      // req.user = user;
       return done(null, user.get());
     });
   }
