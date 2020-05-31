@@ -24,6 +24,7 @@ const Payment = {
   data: function () {
     return {
       loading: false,
+      error: false,
       payments: function () {
         return [];
       },
@@ -82,6 +83,7 @@ const Expense = {
         })
         .then((response) => {
           if (response.status === 200) {
+            this.error = false;
             console.log(response);
             this.date = "";
             this.type = "";
@@ -90,6 +92,7 @@ const Expense = {
           }
         })
         .catch((response) => {
+          this.error = true;
           console.log(response);
         });
     },
@@ -115,7 +118,7 @@ const Login = {
         })
         .then((response) => {
           if (response.status === 200) {
-            console.log(response.data);
+            this.error = false;
             localStorage.token = response.data.token;
             if (this.remember) {
               localStorage.user = this.user;
@@ -127,6 +130,8 @@ const Login = {
               delete localStorage.remember;
             }
             this.$router.replace("/expense");
+          } else {
+            this.error = true;
           }
         })
         .catch((response) => {
