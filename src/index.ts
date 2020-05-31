@@ -13,17 +13,7 @@ Authentication.initialize(app);
 Authentication.setLocalStrategy();
 Authorization.setJWTStrategy();
 
-// API用ルーティング
-import auth from "./api/auth";
-import payment from "./api/payment";
-import expense from "./api/expense";
-
-/*
-app.use("/", index);
-app.use("/expenses/payment", payment);
-app.use("/login", login);
-app.use("/expenses/submit", submit);
-*/
+app.use(Express.static("htdocs"));
 
 // API
 app.use("/api/auth", auth);
