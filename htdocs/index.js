@@ -1,14 +1,19 @@
+// Todo
+// const baseUrl = "https://virtserver.swaggerhub.com/sho7650/ExpenseMockServices/0.7.0";
 const baseUrl = "";
 
+// 経費リストを axios を利用して取得する関数
 const getPayments = function (callback) {
   axios
     .get(`${baseUrl}/api/payment`, {
+      // JWTの認可ヘッダ
       headers: {
         Authorization: `Bearer ${localStorage.token}`,
       },
     })
     .then((response) => {
       if (response.status === 200) {
+        // "response.data" 配下に経費リストが含まれる
         callback(null, response.data);
       } else {
         callback(true, response);
@@ -19,6 +24,7 @@ const getPayments = function (callback) {
     });
 };
 
+// 経費リスト用の Vueコンポーネント
 const Payment = {
   template: "#payment",
   data: function () {
@@ -30,12 +36,15 @@ const Payment = {
       },
     };
   },
+  // 初期化されたときにデータを取得する
   created: function () {
     this.fetchData();
   },
+  // ルーティングが変更されてきたときに再度データを取得する
   watch: {
     $route: "fetchData",
   },
+  // 経費データを取得するメソッドのメイン部分
   methods: {
     fetchData: function () {
       this.loading = true;
@@ -43,17 +52,20 @@ const Payment = {
         function (err, payments) {
           this.loading = false;
           if (!err) this.payments = payments;
+          else this.error = true;
         }.bind(this)
       );
     },
   },
 };
 
+// 経費を登録するコンポーネント
 const Expense = {
   template: "#expense",
   data: function () {
     let decoded = {};
     if (localStorage.token) {
+      // トークン内のユーザ情報を元に変数へ配置
       decoded = jwt_decode(localStorage.token);
     }
     return {
@@ -67,8 +79,10 @@ const Expense = {
       error: false,
     };
   },
+  // 経費を登録するメソッド
   methods: {
     expense: function () {
+      // POSTする場合の認可ヘッダの定義
       axios.defaults.headers.common["Authorization"] =
         "Bearer " + localStorage.token;
       axios
@@ -83,6 +97,7 @@ const Expense = {
         })
         .then((response) => {
           if (response.status === 200) {
+            // 正常に登録できた場合は、変更が伴うフィールドをクリアして、再度入力可能な状態にする
             this.error = false;
             console.log(response);
             this.date = "";
@@ -99,6 +114,7 @@ const Expense = {
   },
 };
 
+// ログイン処理
 const Login = {
   template: "#login",
   data: function () {
@@ -118,17 +134,21 @@ const Login = {
         })
         .then((response) => {
           if (response.status === 200) {
+            // ログインが成功した場合は、ローカルストレージにトークンを保管する(ログインが成功した状態とする)
             this.error = false;
             localStorage.token = response.data.token;
+            // "remember me" チェックボックスがついていたら、各々の入力項目を保管する
             if (this.remember) {
               localStorage.user = this.user;
               localStorage.password = this.password;
               localStorage.remember = true;
             } else {
+              // 逆にオフであれば入力項目の内容を破棄する
               delete localStorage.user;
               delete localStorage.password;
               delete localStorage.remember;
             }
+            // ログイン成功したら /expense へ切り替える
             this.$router.replace("/expense");
           } else {
             this.error = true;
@@ -143,23 +163,10 @@ const Login = {
   },
 };
 
+// Vue-routerにによる SPA 内のルーティング処理定義部分
 const router = new VueRouter({
   routes: [
-    {
-      path: "/payment",
-      component: Payment,
-      beforeEnter: (to, from, next) => {
-        // 認証前の場合は /login ページへ遷移する
-        if (!localStorage.token) {
-          next({
-            path: "/login",
-            query: { redirect: to.fullPath },
-          });
-        } else {
-          next();
-        }
-      },
-    },
+    // 経費登録
     {
       path: "/expense",
       component: Expense,
@@ -175,10 +182,28 @@ const router = new VueRouter({
         }
       },
     },
+    // 経費一覧
+    {
+      path: "/payment",
+      component: Payment,
+      beforeEnter: (to, from, next) => {
+        // 認証前の場合は /login ページへ遷移する
+        if (!localStorage.token) {
+          next({
+            path: "/login",
+            query: { redirect: to.fullPath },
+          });
+        } else {
+          next();
+        }
+      },
+    },
+    // ログイン画面
     {
       path: "/login",
       component: Login,
     },
+    // ログアウト処理
     {
       path: "/logout",
       beforeEnter: (to, from, next) => {
@@ -186,6 +211,7 @@ const router = new VueRouter({
         next("/login");
       },
     },
+    // どもURLにも該当しなかった場合
     {
       path: "*",
       redirect: "/expense",
