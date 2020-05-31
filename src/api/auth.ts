@@ -7,8 +7,6 @@ import passport from "passport";
 router.post("/", (req: Request, res: Response, next: NextFunction) => {
   if (req.body.user && req.body.password) {
     passport.authenticate("local", (err, token) => {
-      console.log(err);
-      console.log(token);
       if (err) {
         console.log("authentication error");
         return res.status(401).json(err);
