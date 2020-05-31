@@ -2,7 +2,11 @@ const baseUrl = "";
 
 const getPayments = function (callback) {
   axios
-    .get(`${baseUrl}/api/payment`)
+    .get(`${baseUrl}/api/payment`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+    })
     .then((response) => {
       if (response.status === 200) {
         callback(null, response.data);
@@ -54,6 +58,7 @@ const Expense = {
     return {
       user: decoded.email || "",
       id: decoded.id || "",
+      user_name: decoded.user_name || "",
       date: "",
       type: "",
       amount: 0,
@@ -63,10 +68,13 @@ const Expense = {
   },
   methods: {
     expense: function () {
+      axios.defaults.headers.common["Authorization"] =
+        "Bearer " + localStorage.token;
       axios
         .post(`${baseUrl}/api/expense`, {
           user: this.user,
-          id: this.id,
+          user_id: this.id,
+          user_name: this.user_name,
           date: this.date,
           type: this.type,
           amount: this.amount,

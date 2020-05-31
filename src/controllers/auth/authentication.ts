@@ -45,7 +45,11 @@ export class Authentication {
           };
           const secret: string = process.env.SECRET || "secret";
           const token: string = jwt.sign(
-            { email: user.email, id: user.id },
+            {
+              email: user.email,
+              id: user.id,
+              user_name: user.last_name + " " + user.first_name,
+            },
             secret,
             opts
           );

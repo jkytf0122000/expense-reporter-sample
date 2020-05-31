@@ -38,7 +38,8 @@
 
     <script type="text/x-template" id="expense">
       <form @submit.prevent="expense">
-      <input v-model="user" type="email" placeholder="Your Email" />
+        <input v-model="user_name" type="text" placeholder="Your Name" />
+        <input v-model="user" type="email" placeholder="Your Email" />
         <input v-model="id" type="hidden" placeholder="Your User ID" />
         <input v-model="date" type="datetime-local" placeholder="経費利用日" autofocus="" />
         <input v-model="type" type="text" placeholder="費目" />
