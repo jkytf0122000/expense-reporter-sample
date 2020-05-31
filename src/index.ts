@@ -15,6 +15,11 @@ Authorization.setJWTStrategy();
 
 app.use(Express.static("htdocs"));
 
+// API用ルーティング
+import auth from "./api/auth";
+import payment from "./api/payment";
+import expense from "./api/expense";
+
 // API
 app.use("/api/auth", auth);
 app.use("/api/expense", Authorization.isAuthorized, expense);
