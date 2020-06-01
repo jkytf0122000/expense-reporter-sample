@@ -1,65 +1,190 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script
+      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+      defer
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.min.css"
+    />
     <title>経費精算 for Vue.js</title>
   </head>
 
   <body>
     <div id="app">
-      <h1>経費精算アプリケーション(Vue.js)</h1>
-      <h2>しょっさん updated @2020/5/30</h2>
-      <router-link to="/expense">経費登録</router-link>
-      <router-link to="/payment">経費精算</router-link>
-      <router-link to="/login">ログイン</router-link>
-      <router-link to="/logout">ログアウト</router-link>
-      <router-view />
+      <section class="hero is-info">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title">経費精算アプリケーション(Vue.js)</h1>
+            <h2 class="subtitle">しょっさん updated @2020/5/30</h2>
+          </div>
+        </div>
+      </section>
+      <section class="hero">
+        <div class="hero-body">
+          <div class="container">
+            <div class="tile is-ancestor">
+              <div class="tile is-parent">
+                <article class="tile is-child box">
+                  <router-link to="/expense"
+                    ><button class="button">経費精算</button></router-link
+                  >
+                  <router-link to="/payment"
+                    ><button class="button">支払処理</button></router-link
+                  >
+                  <router-link to="/login"
+                    ><button class="button">ログイン</button></router-link
+                  >
+                  <router-link to="/logout"
+                    ><button class="button">ログアウト</button></router-link
+                  >
+                </article>
+              </div>
+            </div>
+            <router-view></router-view>
+          </div>
+        </div>
+      </section>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
     <script src="https://unpkg.com/vue-router@3.3.2/dist/vue-router.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js"></script>
     <script src="./jwt-decode.min.js"></script>
 
     <script type="text/x-template" id="login">
-      <div>
-        <p v-if="$route.query.redirect">ログインしてください</p>
-        <form @submit.prevent="login">
-          <input v-model="user" type="email" placeholder="Your Email" autofocus="" />
-          <input v-model="password" type="password" placeholder="Your Password" />
-          remember <input v-model="remember" type="checkbox" />
-          <button type="submit">ログイン</button>
-        </form>
-        <p v-if="error" class="error">ログイン失敗</p>
+      <div class="container">
+        <div class="container has-text-centered">
+          <div class="column is-4 is-offset-4">
+            <p v-if="$route.query.redirect" class="subtitle has-text-black">経費精算を行うには、<br />ログインしてください</p>
+            <div class="box">
+              <figure class="avatar">
+                <img src="https://placehold.it/128x128">
+              </figure>
+              <form @submit.prevent="login">
+                <div class="field">
+                  <p class="control has-icons-left has-icons-right">
+                    <input class="input" v-model="user" type="email" placeholder="Email" autofocus="" />
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-envelope"></i>
+                    </span>
+                  </p>
+                </div>
+                <div class="field">
+                  <p class="control has-icons-left">
+                    <input class="input" v-model="password" type="password" placeholder="Password" />
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-lock"></i>
+                    </span>
+                  </p>
+                </div>
+                <div class="field">
+                  <label class="checkbox">
+                    <input v-model="remember" type="checkbox">remember me</input>
+                  </label>
+                </div>
+                <button class="button is-block is-info is-midium is-fullwidth" type="submit">ログイン</button>
+              </form>
+            </div>
+            <div v-if="error" class="error">
+              <div class="message-header">
+                <p>ログイン失敗</p>
+                <button class="delete" aria-label="delete"></button>
+              </div>
+              <div class="message-body">
+                入力されたメールアドレスか、パスワードがまちがっています
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </script>
 
     <script type="text/x-template" id="expense">
-        <div>
-        <form @submit.prevent="expense">
-          <input v-model="user_name" type="text" placeholder="Your Name" />
-          <input v-model="user" type="email" placeholder="Your Email" />
-          <input v-model="id" type="hidden" placeholder="Your User ID" />
-          <input v-model="date" type="datetime-local" placeholder="経費利用日" autofocus="" />
-          <input v-model="type" type="text" placeholder="費目" />
-          <input v-model="amount" type="number" placeholder="金額" />
-          <input v-model="description" type="text" placeholder="費用詳細" />
-          <button type="submit">経費申請</button>
-        </form>
-        <p v-if="error" class="error">経費登録失敗</p>
+       <div class="container">
+        <div v-if="error" class="error">
+          <div class="box">
+            <div class="message-header">
+              <p>経費申請失敗</p>
+              <button class="delete" aria-label="delete"></button>
+            </div>
+            <div class="message-body">
+              必須項目の入力がないか、入力内容がまちがっています
+            </div>
+          </div>
+        </div>
+       <form @submit.prevent="expense">
+         <div class="field is-horizontal">
+           <div class="field-label is-normal">
+             <label class="label">名前</label>
+           </div>
+           <div class="field-body">
+             <div class="field">
+               <p class="control">
+                 <input class="input is-static" v-model="user_name" type="text" placeholder="Your Name" readonly />
+               </p>
+             </div>
+           </div>
+         </div>
+         <div class="field is-horizontal">
+           <div class="field-label is-normal">
+             <label class="label">メールアドレス</label>
+           </div>
+           <div class="field-body">
+             <div class="field">
+               <p class="control">
+                 <input class="input is-static" v-model="user" type="email" placeholder="Your Email" readonly />
+               </p>
+             </div>
+           </div>
+         </div>
+         <div class="field is-horizontal">
+           <div class="field-label is-normal">
+               <label class="label">経費項目</label>
+             </div>
+             <div class="field-body">
+               <div class="field">
+                 <p class="control">
+                   <input class="input" v-model="id" type="hidden" placeholder="Your User ID" />
+                   <input class="input" v-model="date" type="datetime-local" placeholder="経費利用日" autofocus="" />
+                   <input class="input" v-model="type" type="text" placeholder="費目" />
+                   <input class="input" v-model="amount" type="number" placeholder="金額" />
+                   <input class="input" v-model="description" type="text" placeholder="費用詳細" />
+                 </p>
+               </div>
+             </div>
+           </div>
+         <button type="submit">経費申請</button>
+       </form>
       </div>
     </script>
 
     <script type="text/x-template" id="payment">
-        <div>
-        <table>
+        <div class="container">
+          <div v-if="error" class="error">
+            <div class="box">
+              <div class="message-header">
+                <p>経費取得失敗</p>
+                <button class="delete" aria-label="delete"></button>
+              </div>
+              <div class="message-body">
+                ネットワーク障害の可能性があります
+              </div>
+            </div>
+          </div>
+        <table class="table">
           <tr>
+            <th>#</th>
             <th>ユーザー名</th>
             <th>発生日</th>
             <th>費目</th>
             <th>経費</th>
             <th>詳細</th>
           </tr>
-          <tr v-for="payment in payments">
+          <tr v-for="(payment, i) in payments">
+            <td>{{i + 1}}</td>
             <td>{{payment.user_name}}</td>
             <td>{{payment.date}}</td>
             <td>{{payment.type}}</td>
@@ -68,7 +193,6 @@
           </tr>
         </table>
         <div class="loading" v-if="loading">アクセス中...</div>
-        <p v-if="error" class="error">経費取得失敗</p>
       </div>
     </script>
 

@@ -74,7 +74,7 @@ const Expense = {
       user_name: decoded.user_name || "",
       date: "",
       type: "",
-      amount: 0,
+      amount: "",
       description: "",
       error: false,
     };
@@ -82,19 +82,24 @@ const Expense = {
   // 経費を登録するメソッド
   methods: {
     expense: function () {
-      // POSTする場合の認可ヘッダの定義
-      axios.defaults.headers.common["Authorization"] =
-        "Bearer " + localStorage.token;
       axios
-        .post(`${baseUrl}/api/expense`, {
-          user: this.user,
-          user_id: this.id,
-          user_name: this.user_name,
-          date: this.date,
-          type: this.type,
-          amount: this.amount,
-          description: this.description,
-        })
+        .post(
+          `${baseUrl}/api/expense`,
+          {
+            user: this.user,
+            user_id: this.id,
+            user_name: this.user_name,
+            date: this.date,
+            type: this.type,
+            amount: this.amount,
+            description: this.description,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.token}`,
+            },
+          }
+        )
         .then((response) => {
           if (response.status === 200) {
             // 正常に登録できた場合は、変更が伴うフィールドをクリアして、再度入力可能な状態にする
@@ -102,7 +107,7 @@ const Expense = {
             console.log(response);
             this.date = "";
             this.type = "";
-            this.amount = 0;
+            this.amount = "";
             this.description = "";
           }
         })

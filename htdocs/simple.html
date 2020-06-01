@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>経費精算 for Vue.js</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <h1>経費精算アプリケーション(Vue.js)</h1>
+      <h2>しょっさん updated @2020/5/30</h2>
+      <router-link to="/expense">経費登録</router-link>
+      <router-link to="/payment">経費精算</router-link>
+      <router-link to="/login">ログイン</router-link>
+      <router-link to="/logout">ログアウト</router-link>
+      <router-view />
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <script src="https://unpkg.com/vue-router@3.3.2/dist/vue-router.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./jwt-decode.min.js"></script>
+
+    <script type="text/x-template" id="login">
+      <div>
+        <p v-if="$route.query.redirect">ログインしてください</p>
+        <form @submit.prevent="login">
+          <input v-model="user" type="email" placeholder="Your Email" autofocus="" />
+          <input v-model="password" type="password" placeholder="Your Password" />
+          remember <input v-model="remember" type="checkbox" />
+          <button type="submit">ログイン</button>
+        </form>
+        <p v-if="error" class="error">ログイン失敗</p>
+      </div>
+    </script>
+
+    <script type="text/x-template" id="expense">
+        <div>
+        <form @submit.prevent="expense">
+          <input v-model="user_name" type="text" placeholder="Your Name" />
+          <input v-model="user" type="email" placeholder="Your Email" />
+          <input v-model="id" type="hidden" placeholder="Your User ID" />
+          <input v-model="date" type="datetime-local" placeholder="経費利用日" autofocus="" />
+          <input v-model="type" type="text" placeholder="費目" />
+          <input v-model="amount" type="number" placeholder="金額" />
+          <input v-model="description" type="text" placeholder="費用詳細" />
+          <button type="submit">経費申請</button>
+        </form>
+        <p v-if="error" class="error">経費登録失敗</p>
+      </div>
+    </script>
+
+    <script type="text/x-template" id="payment">
+        <div>
+        <table>
+          <tr>
+            <th>ユーザー名</th>
+            <th>発生日</th>
+            <th>費目</th>
+            <th>経費</th>
+            <th>詳細</th>
+          </tr>
+          <tr v-for="payment in payments">
+            <td>{{payment.user_name}}</td>
+            <td>{{payment.date}}</td>
+            <td>{{payment.type}}</td>
+            <td>{{payment.amount}}</td>
+            <td>{{payment.description}}</td>
+          </tr>
+        </table>
+        <div class="loading" v-if="loading">アクセス中...</div>
+        <p v-if="error" class="error">経費取得失敗</p>
+      </div>
+    </script>
+
+    <script src="./index.js"></script>
+  </body>
+</html>

@@ -5,7 +5,6 @@ const router = Express.Router();
 
 // POST 経費の入力
 router.post("/", (req: Request, res: Response, next: NextFunction) => {
-  console.log(`req.body=${req.body}`);
   Expense.create(req.body)
     .then((result) => {
       res.status(200).json(result);
