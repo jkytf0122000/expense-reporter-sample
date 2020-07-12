@@ -31,7 +31,7 @@ export class Authentication {
         return done(null, false);
       });
   }
-*/s
+*/
   static verifyLocal(username: string, password: string, done: any) {
     User.findOne({
       where: {
