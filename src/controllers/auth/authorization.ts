@@ -14,8 +14,7 @@ export class Authorization {
     }).then((user) => {
       if (!user) return done(null, false);
 
-      // req.user = user;
-      return done(null, user.get());
+      return done(null, user);
     });
   }
 
@@ -33,13 +32,14 @@ export class Authorization {
 
   // 認可チェック
   static isAuthorized(req: Request, res: Response, next: NextFunction) {
-    passport.authenticate("jwt", { session: false }, (err, user) => {
+    passport.authenticate("jwt", (err, user) => {
       if (err) {
         res.status(401).json({ status: "10001" });
       }
       if (!user) {
         res.status(401).json({ status: "10002" });
       } else {
+        req.user = user;
         return next();
       }
     })(req, res, next);

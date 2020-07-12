@@ -1,3 +1,4 @@
+import { Request, Response, NextFunction } from "express";
 import Express from "express";
 const app = Express();
 import logger from "morgan";
@@ -9,7 +10,6 @@ app.use(Express.json());
 app.use(Express.urlencoded({ extended: true }));
 
 Authentication.initialize(app);
-// Strategy を２つ(user/password認証, JWT認可)利用
 Authentication.setLocalStrategy();
 Authorization.setJWTStrategy();
 
@@ -25,31 +25,20 @@ app.use("/api/auth", auth);
 app.use("/api/expense", Authorization.isAuthorized, expense);
 app.use("/api/payment", Authorization.isAuthorized, payment);
 
-app.use(
-  (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
-    var err: any = new Error("Not Found");
-    err.status = 404;
-    next(err);
-  }
-);
+app.use((req: Request, res: Response, next: NextFunction) => {
+  var err: any = new Error("Not Found");
+  err.status = 404;
+  next(err);
+});
 
 // error handler
-app.use(
-  (
-    err: any,
-    req: Express.Request,
-    res: Express.Response,
-    next: Express.NextFunction
-  ) => {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get("env") === "development" ? err : {};
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
-    // render the error page
-    res.status(err.status || 500);
-    res.send("エラーが発生しました");
-  }
-);
+  res.status(err.status || 500);
+  res.json(err);
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

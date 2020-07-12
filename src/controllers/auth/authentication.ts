@@ -8,17 +8,21 @@ export class Authentication {
   static initialize(app: any) {
     // passport 初期化
     app.use(passport.initialize());
+    /*
     app.use(passport.session());
 
-    // passport.serializeUser(this.serializeUser);
-    // passport.deserializeUser(this.deserializeUser);
+    passport.serializeUser(this.serializeUser);
+    passport.deserializeUser(this.deserializeUser);
+*/
   }
-
   /*
   static serializeUser(user: any, done: any) {
+    console.log(`serialize: ${user}`);
     return done(null, user);
   }
   static deserializeUser(user: any, done: any) {
+    console.log(`deserialize: ${user}`);
+
     User.findByPk(user.id)
       .then((user) => {
         return done(null, user);
@@ -27,8 +31,7 @@ export class Authentication {
         return done(null, false);
       });
   }
-  */
-
+*/s
   static verifyLocal(username: string, password: string, done: any) {
     User.findOne({
       where: {

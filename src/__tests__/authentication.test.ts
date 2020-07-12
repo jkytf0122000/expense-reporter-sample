@@ -1,4 +1,4 @@
-import { Authentication } from "../src/controllers/auth/authentication";
+import { Authentication } from "../controllers/auth/authentication";
 import jwt from "jsonwebtoken";
 
 describe("authentication", () => {

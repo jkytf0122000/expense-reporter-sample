@@ -1,5 +1,5 @@
-import { Authorization } from "../src/controllers/auth/authorization";
-import { User } from "../src/models/user";
+import { Authorization } from "../controllers/auth/authorization";
+import { User } from "../models/user";
 import { Request } from "express";
 
 describe("authorization", () => {

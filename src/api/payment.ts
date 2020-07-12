@@ -5,6 +5,8 @@ const router = Express.Router();
 
 // POST / ユーザーの認証処理
 router.get("/", (req: Request, res: Response, next: NextFunction) => {
+  console.log(`req.user = ${req.user}`);
+
   Expense.findAll()
     .then((results) => {
       res.status(200).json(results);
