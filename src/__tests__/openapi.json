@@ -89,7 +89,7 @@
         }
       },
       "post": {
-        "summary": "Updates a expense in the store with form data",
+        "summary": "Updates an expense in the store with form-data",
         "operationId": "updateExpenseWithForm",
         "parameters": [
           {
@@ -312,7 +312,7 @@
         },
         "responses": {
           "400": {
-            "description": "Invalid user supplied"
+            "description": "Invalid user-supplied"
           },
           "404": {
             "description": "User not found"
