@@ -1,5 +1,4 @@
 import { approval_status } from "../common";
-import app from "../..";
 
 export type ExpenseValue = {
   user_id: number;
