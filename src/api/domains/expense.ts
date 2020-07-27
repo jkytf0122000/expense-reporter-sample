@@ -1,4 +1,5 @@
-import { approval_status } from "../common/common";
+import { approval_status } from "../common";
+import app from "../..";
 
 export type ExpenseValue = {
   user_id: number;
@@ -6,6 +7,7 @@ export type ExpenseValue = {
   type: string;
   description: string | null;
   approval: approval_status | undefined | null;
+  amount: number;
 };
 
 export class Expense {
@@ -42,6 +44,10 @@ export class Expense {
     return this._approval;
   }
 
+  get amount(): number {
+    return this._amount;
+  }
+
   set date(date: Date) {
     this._date = date;
   }
@@ -55,7 +61,13 @@ export class Expense {
   }
 
   set approval(status: approval_status) {
+    if (status <= approval_status.minimum || status >= approval_status.maximum)
+      throw new Error("承認コードがおかしい");
     this._approval = status;
+  }
+
+  set amount(amount: number) {
+    this._amount = amount;
   }
 
   constructor(e: ExpenseValue) {
@@ -64,5 +76,6 @@ export class Expense {
     this._type = e.type;
     this._description = e.description;
     this._approval = e.approval || approval_status.unapproved;
+    this._amount = e.amount;
   }
 }
