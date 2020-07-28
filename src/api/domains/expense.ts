@@ -1,17 +1,29 @@
 import { approval_status, MAX_AMOUNT } from "../common";
 
-export class Expense {
-  private _id!: number;
+export type ExpenseValue = {
+  id?: number;
+  user_id: number;
+  user_name?: string;
+  date: Date;
+  type: string;
+  description?: string | null;
+  approval?: approval_status;
+  amount: number;
+};
+
+export class ExpenseEntity {
+  private _id?: number | null;
   private _user_id!: number;
-  private _user_name!: string;
+  private _user_name?: string;
   private _date!: Date;
   private _type!: string;
   private _description?: string | null;
   private _approval!: approval_status;
   private _amount!: number;
 
-  get id(): number {
-    return this._id;
+  get id(): number | null {
+    if (this._id) return this._id;
+    return null;
   }
 
   get userId(): number {
@@ -19,7 +31,8 @@ export class Expense {
   }
 
   get userName(): string {
-    return this._user_name;
+    if (this._user_name) return this._user_name;
+    return "";
   }
 
   get date(): Date {
@@ -67,15 +80,8 @@ export class Expense {
     this._amount = amount;
   }
 
-  constructor(e: {
-    user_id: number;
-    user_name: string;
-    date: Date;
-    type: string;
-    description?: string;
-    approval?: approval_status;
-    amount: number;
-  }) {
+  constructor(e: ExpenseValue) {
+    this._id = e.id || null;
     this._user_id = e.user_id;
     this._user_name = e.user_name;
     this._date = e.date;

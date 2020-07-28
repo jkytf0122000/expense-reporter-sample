@@ -1,4 +1,4 @@
-import { Expense } from "../domains/expense";
+import { ExpenseEntity, ExpenseValue } from "../domains/expense";
 import { IExpenseRepository } from "./IExpenseRepository";
 
 export class SubmitExpense {
@@ -8,7 +8,8 @@ export class SubmitExpense {
     this._expenseRepository = expenseRepository;
   }
 
-  execute(expense: Expense) {
-    return this._expenseRepository.store(expense);
+  execute(expense: ExpenseValue) {
+    const e = new ExpenseEntity(expense);
+    return this._expenseRepository.store(e);
   }
 }
