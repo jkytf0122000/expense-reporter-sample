@@ -72,15 +72,15 @@ export class Expense {
     user_name: string;
     date: Date;
     type: string;
-    description: string | null;
-    approval: approval_status;
+    description?: string;
+    approval?: approval_status;
     amount: number;
   }) {
     this._user_id = e.user_id;
     this._user_name = e.user_name;
     this._date = e.date;
     this._type = e.type;
-    this._description = e.description;
+    this._description = e.description || "";
     this._approval = e.approval || approval_status.unapproved;
     this._amount = e.amount;
   }

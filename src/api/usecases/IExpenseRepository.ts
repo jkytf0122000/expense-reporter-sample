@@ -1,4 +1,4 @@
-import { ExpenseValue, Expense } from "../domains/expense";
+import { Expense } from "../domains/expense";
 
 export interface IExpenseRepository {
   // findAll(): ExpenseValue[];
