@@ -1,21 +1,13 @@
-import { approval_status } from "../common";
-
-export type ExpenseValue = {
-  user_id: number;
-  date: Date;
-  type: string;
-  description: string | null;
-  approval: approval_status | undefined | null;
-  amount: number;
-};
+import { approval_status, MAX_AMOUNT } from "../common";
 
 export class Expense {
   private _id!: number;
   private _user_id!: number;
+  private _user_name!: string;
   private _date!: Date;
   private _type!: string;
   private _description?: string | null;
-  private _approval!: number;
+  private _approval!: approval_status;
   private _amount!: number;
 
   get id(): number {
@@ -24,6 +16,10 @@ export class Expense {
 
   get userId(): number {
     return this._user_id;
+  }
+
+  get userName(): string {
+    return this._user_name;
   }
 
   get date(): Date {
@@ -66,11 +62,22 @@ export class Expense {
   }
 
   set amount(amount: number) {
+    if (amount <= 0 || amount >= MAX_AMOUNT)
+      throw new Error("請求金額がおかしい");
     this._amount = amount;
   }
 
-  constructor(e: ExpenseValue) {
+  constructor(e: {
+    user_id: number;
+    user_name: string;
+    date: Date;
+    type: string;
+    description: string | null;
+    approval: approval_status;
+    amount: number;
+  }) {
     this._user_id = e.user_id;
+    this._user_name = e.user_name;
     this._date = e.date;
     this._type = e.type;
     this._description = e.description;
