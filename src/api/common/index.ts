@@ -6,5 +6,3 @@ export enum approval_status {
   reimburse,
   maximum,
 }
-
-export const MAX_AMOUNT = 1000000;

@@ -9,16 +9,22 @@ const router = Express.Router();
 router.post("/", (req: Request, res: Response, next: NextFunction) => {
   const expenseRepository = new ExpenseRepository();
 
-  const usecase = new SubmitExpense(expenseRepository);
-  usecase
-    .execute(req.body)
-    .then((result) => {
-      res.status(200).json(result);
-    })
-    .catch((err) => {
-      res.status(400).json({ id: 20002, message: err });
-    });
-
+  try {
+    const usecase = new SubmitExpense(expenseRepository);
+    usecase
+      .execute(req.body)
+      .then((result) => {
+        console.log(result);
+        res.status(200).json(result);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(400).json({ id: 20002, message: err });
+      });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ id: 20101, message: err });
+  }
   /*
   Expense.create(req.body)
     .then((result) => {

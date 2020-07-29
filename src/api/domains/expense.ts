@@ -1,6 +1,6 @@
-import { approval_status, MAX_AMOUNT } from "../common";
+import { approval_status } from "../common";
 
-export type ExpenseValue = {
+export interface ExpenseValue {
   id?: number;
   user_id: number;
   user_name?: string;
@@ -9,7 +9,10 @@ export type ExpenseValue = {
   description?: string | null;
   approval?: approval_status;
   amount: number;
-};
+}
+
+const MAX_LENGTH = 64;
+const MAX_AMOUNT = 1000000;
 
 export class ExpenseEntity {
   private _id?: number | null;
@@ -61,6 +64,7 @@ export class ExpenseEntity {
   }
 
   set type(type: string) {
+    if (type.length > MAX_LENGTH) throw new Error("費目名が長い");
     this._type = type;
   }
 
@@ -76,18 +80,18 @@ export class ExpenseEntity {
 
   set amount(amount: number) {
     if (amount <= 0 || amount >= MAX_AMOUNT)
-      throw new Error("請求金額がおかしい");
+      throw new Error("請求金額が範囲を超えている");
     this._amount = amount;
   }
 
   constructor(e: ExpenseValue) {
     this._id = e.id || null;
     this._user_id = e.user_id;
-    this._user_name = e.user_name;
-    this._date = e.date;
-    this._type = e.type;
-    this._description = e.description || "";
-    this._approval = e.approval || approval_status.unapproved;
-    this._amount = e.amount;
+    this._user_name = e.user_name || "";
+    this.date = e.date;
+    this.type = e.type;
+    this.description = e.description || "";
+    this.approval = e.approval || approval_status.unapproved;
+    this.amount = e.amount;
   }
 }
