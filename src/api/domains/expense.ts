@@ -11,8 +11,8 @@ export interface ExpenseValue {
   amount: number;
 }
 
-const MAX_LENGTH = 64;
-const MAX_AMOUNT = 1000000;
+export const MAX_LENGTH = 64;
+export const MAX_AMOUNT = 1000000;
 
 export class ExpenseEntity {
   private _id?: number | null;

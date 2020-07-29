@@ -1,9 +1,9 @@
-import { Expense } from "../api/domains/expense";
-import { approval_status, MAX_AMOUNT } from "../api/common";
+import { ExpenseEntity, MAX_AMOUNT } from "../api/domains/expense";
+import { approval_status } from "../api/common";
 
 describe("Expense Entity", () => {
   const today = new Date();
-  const e = new Expense({
+  const e = new ExpenseEntity({
     user_id: 1,
     user_name: "sample user",
     date: today,
