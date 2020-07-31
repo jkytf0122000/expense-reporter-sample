@@ -12,7 +12,7 @@ class Type extends PrimitiveObject<string> {
 }
 
 class Approval extends PrimitiveObject<approval_status> {
-  static create(value: approval_status): Approval {
+  static create(value: approval_status = approval_status.unapproved): Approval {
     if (value <= approval_status.minimum || value >= approval_status.maximum)
       throw new Error("承認コードがおかしい");
     return new Approval(value);
