@@ -1,9 +1,9 @@
-import { ExpenseEntity, MAX_AMOUNT } from "../api/domains/expense";
+import { ExpenseEntity, MAX_AMOUNT } from "../api/domains/expenseEntity";
 import { approval_status } from "../api/common";
 
 describe("Expense Entity", () => {
   const today = new Date();
-  const e = new ExpenseEntity({
+  const Entity = ExpenseEntity.create({
     user_id: 1,
     user_name: "sample user",
     date: today,
@@ -12,6 +12,7 @@ describe("Expense Entity", () => {
     approval: approval_status.unapproved,
     amount: 500,
   });
+  const e = Entity.read();
 
   it("set and get - positive", () => {
     expect(e.user_id).toBe(1);
@@ -36,10 +37,10 @@ describe("Expense Entity", () => {
 
   it("change approval - negative", () => {
     expect(() => {
-      e.approval = approval_status.minimum;
+      Entity.approval = approval_status.minimum;
     }).toThrow();
     expect(() => {
-      e.approval = approval_status.maximum;
+      Entity.approval = approval_status.maximum;
     }).toThrow();
   });
 

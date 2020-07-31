@@ -5,7 +5,7 @@ import { ExpenseRepository } from "./repositories/expense";
 import { FindAllExpense } from "./usecases/FindAllExpense";
 const router = Express.Router();
 
-// POST / ユーザーの認証処理
+// 支払処理
 router.get("/", (req: Request, res: Response, next: NextFunction) => {
   const expenseRepository = new ExpenseRepository();
 
@@ -15,7 +15,11 @@ router.get("/", (req: Request, res: Response, next: NextFunction) => {
       .execute()
       .then((results) => {
         console.log(results);
-        res.status(200).json(results);
+        res.status(200).json(
+          results.map((value, index, arrya) => {
+            return value.read();
+          })
+        );
       })
       .catch((err) => {
         console.log(err);

@@ -1,10 +1,15 @@
 import { Expense } from "../../models/expense";
-import { ExpenseValue, ExpenseEntity } from "../domains/expense";
+import { IExpenseValue, ExpenseEntity } from "../domains/expenseEntity";
 import { IExpenseRepository } from "../usecases/IExpenseRepository";
 
 export class ExpenseRepository implements IExpenseRepository {
-  findAll(): Promise<ExpenseValue[]> {
-    return Expense.findAll()
+  findAll(): Promise<ExpenseEntity[]> {
+    return Expense.findAll().then((results) => {
+      return results.map((value, index, array) => {
+        return ExpenseEntity.create(value);
+      });
+    });
+    /*    return Expense.findAll()
       .then((results) => {
         return results.map((value, index, array) => {
           return {
@@ -22,20 +27,26 @@ export class ExpenseRepository implements IExpenseRepository {
       .catch((err) => {
         throw new Error("取得に失敗しました");
       });
+      */
   }
 
-  store(e: ExpenseEntity): Promise<ExpenseValue> {
-    return Expense.create({
-      user_id: e.userId,
-      user_name: e.userName,
+  store(e: ExpenseEntity): Promise<IExpenseValue> {
+    return Expense.create(
+      e.read()
+      /*{
+      user_id: e.user_id,
+      user_name: e.user_name,
       date: e.date,
       type: e.type,
       description: e.description,
       approval: e.approval,
       amount: e.amount,
-    })
+    }
+    */
+    )
       .then((result) => {
-        return {
+        return result;
+        /* {
           id: result.id,
           user_id: result.user_id,
           user_name: result.user_name,
@@ -45,6 +56,7 @@ export class ExpenseRepository implements IExpenseRepository {
           approval: result.approval,
           amount: result.amount,
         };
+        */
       })
       .catch((err) => {
         throw new Error("請求処理が失敗しました");

@@ -29,11 +29,11 @@ export class ExpenseEntity {
     return null;
   }
 
-  get userId(): number {
+  get user_id(): number {
     return this._user_id;
   }
 
-  get userName(): string {
+  get user_name(): string {
     if (this._user_name) return this._user_name;
     return "";
   }

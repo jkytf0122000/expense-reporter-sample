@@ -43,6 +43,9 @@ Expense.init(
     description: {
       type: DataTypes.TEXT,
     },
+    approval: {
+      type: DataTypes.INTEGER,
+    },
     amount: {
       type: DataTypes.INTEGER,
       allowNull: false,
