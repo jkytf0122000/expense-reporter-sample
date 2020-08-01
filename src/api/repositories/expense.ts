@@ -1,4 +1,5 @@
-import { Expense } from "../../models/expense";
+import { sequelize, Expense } from "../../models/expense";
+import { approval_status } from "../common";
 import { IExpenseValue, ExpenseEntity } from "../domains/expenseEntity";
 import { IExpenseRepository } from "../usecases/IExpenseRepository";
 
@@ -28,6 +29,23 @@ export class ExpenseRepository implements IExpenseRepository {
         throw new Error("取得に失敗しました");
       });
       */
+  }
+
+  findUnapproval(id: string): Promise<ExpenseEntity[]> {
+    return Expense.findAll({
+      where: {
+        /*
+        user_id: {
+          $in: sequelize.literal(`(SELECT id FROM users WHERE bossid = ${id})`),
+        },
+        */
+        approval: approval_status.unapproved,
+      },
+    }).then((results) => {
+      return results.map((value, index, array) => {
+        return ExpenseEntity.create(value);
+      });
+    });
   }
 
   store(e: ExpenseEntity): Promise<IExpenseValue> {

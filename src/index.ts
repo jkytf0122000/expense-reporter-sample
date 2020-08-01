@@ -19,11 +19,13 @@ app.use(Express.static("htdocs"));
 import auth from "./api/auth";
 import payment from "./api/payment";
 import expense from "./api/expense";
+import approval from "./api/approval";
 
 // API
 app.use("/api/auth", auth);
 app.use("/api/expense", Authorization.isAuthorized, expense);
 app.use("/api/payment", Authorization.isAuthorized, payment);
+app.use("/api/approval", Authorization.isAuthorized, approval);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   var err: any = new Error("Not Found");
