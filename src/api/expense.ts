@@ -4,6 +4,7 @@ import Express from "express";
 import { ExpenseRepository } from "./repositories/expense";
 import { FindAllRejectedExpense } from "./usecases/FindAllRejectedExpense";
 import { SubmitExpense } from "./usecases/SubmitExpense";
+import { UpdateExpense } from "./usecases/UpdateExpense";
 const router = Express.Router();
 
 // 却下一覧の取得
@@ -48,6 +49,38 @@ router.post("/", (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const usecase = new SubmitExpense(expenseRepository);
+    usecase
+      .execute(req.body)
+      .then((result) => {
+        console.log(result);
+        res.status(200).json(result.read());
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(400).json({ id: 20002, message: err });
+      });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ id: 20101, message: err });
+  }
+  /*
+  Expense.create(req.body)
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ id: 20002, message: err });
+    });
+    */
+});
+
+// PUT 経費の更新
+router.put("/", (req: Request, res: Response, next: NextFunction) => {
+  const expenseRepository = new ExpenseRepository();
+
+  try {
+    const usecase = new UpdateExpense(expenseRepository);
     usecase
       .execute(req.body)
       .then((result) => {

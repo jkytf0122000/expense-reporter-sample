@@ -75,11 +75,7 @@ export class ExpenseRepository implements IExpenseRepository {
   }
 
   updateApproval(id: number, expense: ExpenseEntity): Promise<ExpenseEntity> {
-    return Expense.update(
-      expense.read(),
-      //      { approval: approval_status.approved },
-      { where: { id: id } }
-    )
+    return Expense.update(expense.read(), { where: { id: id } })
       .then(() => {
         return this.findById(id);
       })
@@ -103,6 +99,19 @@ export class ExpenseRepository implements IExpenseRepository {
         return ExpenseEntity.create(value);
       });
     });
+  }
+
+  update(e: ExpenseEntity): Promise<ExpenseEntity> {
+    const expense = e.read();
+    if (!expense.id) throw new Error("経費が特定されていない");
+
+    return Expense.update(expense, { where: { id: expense.id } })
+      .then(() => {
+        return this.findById(expense.id!);
+      })
+      .catch((err) => {
+        throw new Error("請求処理が失敗しました");
+      });
   }
 
   store(e: ExpenseEntity): Promise<ExpenseEntity> {
