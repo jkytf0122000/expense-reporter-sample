@@ -8,12 +8,28 @@ declare interface expense {
   role: typeof Role;
   expense: typeof Expense;
 }
-*/
+
 
 declare global {
   namespace Express {
     export interface Request {
       user?: User | undefined;
     }
+  }
+}
+
+
+declare global {
+  namespace Express {
+      export interface Request {
+          user?: User;
+      }
+  }
+}
+*/
+
+declare namespace Express {
+  export interface Request {
+    user: import("../models/user").User;
   }
 }

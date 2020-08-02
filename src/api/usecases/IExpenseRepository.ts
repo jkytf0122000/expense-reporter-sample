@@ -1,8 +1,12 @@
 import { IExpenseValue, ExpenseEntity } from "../domains/expenseEntity";
+import { Expense } from "../../models/expense";
 
 export interface IExpenseRepository {
   findAll(): Promise<ExpenseEntity[]>;
+  findAllApproved(): Promise<ExpenseEntity[]>;
+  findAllRejected(): Promise<ExpenseEntity[]>;
   findUnapproval(id: string): Promise<ExpenseEntity[]>;
-  // find(id: number): ExpenseValue;
-  store(expense: ExpenseEntity): Promise<IExpenseValue>;
+  updateApproval(id: number, expense: ExpenseEntity): Promise<ExpenseEntity>;
+  findById(id: number): Promise<ExpenseEntity>;
+  store(expense: ExpenseEntity): Promise<ExpenseEntity>;
 }

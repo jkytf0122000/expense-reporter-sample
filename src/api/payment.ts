@@ -2,15 +2,15 @@ import { Request, Response, NextFunction } from "express";
 import Express from "express";
 // import { Expense } from "../models/expense";
 import { ExpenseRepository } from "./repositories/expense";
-import { FindAllExpense } from "./usecases/FindAllExpense";
+import { FindAllApprovedExpense } from "./usecases/FindAllApprovedExpense";
 const router = Express.Router();
 
-// 支払処理
+// 支払一覧の取得処理
 router.get("/", (req: Request, res: Response, next: NextFunction) => {
   const expenseRepository = new ExpenseRepository();
 
   try {
-    const usecase = new FindAllExpense(expenseRepository);
+    const usecase = new FindAllApprovedExpense(expenseRepository);
     usecase
       .execute()
       .then((results) => {
