@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { User } from "../../models/user";
+import { Role } from "../../models/role";
 import passport from "passport";
 import { Strategy as JWTStrategy, ExtractJwt } from "passport-jwt";
 
@@ -30,7 +31,7 @@ export class Authorization {
     passport.use(new JWTStrategy(field, this.verifyJWT));
   }
 
-  // 認可チェック
+  // ログインチェック
   static isAuthorized(req: Request, res: Response, next: NextFunction) {
     passport.authenticate("jwt", (err, user) => {
       if (err) {
@@ -43,5 +44,33 @@ export class Authorization {
         return next();
       }
     })(req, res, next);
+  }
+
+  static isBoss(req: any, res: Response, next: NextFunction) {
+    Role.findOne({ where: { user_id: req.user.id } })
+      .then((role) => {
+        if (role?.name.match(/B/)) {
+          return next();
+        } else {
+          res.status(401).json({ status: "10003" });
+        }
+      })
+      .catch(() => {
+        res.status(401).json({ status: "10004" });
+      });
+  }
+
+  static isAccounting(req: any, res: Response, next: NextFunction) {
+    Role.findOne({ where: { user_id: req.user.id } })
+      .then((role) => {
+        if (role?.name.match(/A/)) {
+          return next();
+        } else {
+          res.status(401).json({ status: "10003" });
+        }
+      })
+      .catch(() => {
+        res.status(401).json({ status: "10004" });
+      });
   }
 }

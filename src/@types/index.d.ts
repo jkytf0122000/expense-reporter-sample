@@ -1,3 +1,4 @@
+import { Role } from "../models/role";
 import { User } from "../models/user";
 /*
 import { Role } from "../models/role";
@@ -17,19 +18,21 @@ declare global {
     }
   }
 }
-
+*/
 
 declare global {
   namespace Express {
-      export interface Request {
-          user?: User;
-      }
+    export interface Request {
+      user?: User;
+    }
   }
 }
-*/
 
+/*
 declare namespace Express {
   export interface Request {
     user: import("../models/user").User;
+    role: import("../models/role").Role;
   }
 }
+*/
