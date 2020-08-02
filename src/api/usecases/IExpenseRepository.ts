@@ -1,5 +1,4 @@
 import { IExpenseValue, ExpenseEntity } from "../domains/expenseEntity";
-import { Expense } from "../../models/expense";
 
 export interface IExpenseRepository {
   findAll(): Promise<ExpenseEntity[]>;
