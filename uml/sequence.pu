@@ -1,0 +1,53 @@
+@startuml dynamic seuquence
+
+hide footbox
+title ダイナミックシーケンス図(経費申請)
+
+box "SPA-Vue.js(ブラウザ)"
+actor 社員 as User
+end box
+
+box "フレームワークとドライバ"
+boundary Express as index
+database データベース as dbmodel
+boundary "ルータ" as api
+end box
+box "インターフェイスアダプター"
+control "コントローラ" as controller
+control "リポジトリ" as repository
+end box
+box "ユースケース"
+participant Submit
+end box
+box "エンティティ"
+entity "Expense" as domains
+end box
+
+User->index : Expense(JSON)
+index->api : Expense(req.body)
+activate api
+api->controller : Expense(req.body)
+activate controller
+controller->Submit : IExpenseValue
+activate Submit
+Submit->domains : Create Expense
+activate domains
+domains->domains : Checking Validation
+domains->Submit : ExpenseEntity
+deactivate domains
+Submit->controller : ExpenseEntity
+deactivate Submit
+controller->repository : IExpenseValue
+activate repository
+repository->dbmodel : IExpenseValue
+activate dbmodel
+dbmodel->repository : IExpenseValue
+deactivate dbmodel
+repository->controller : IExpenseValue
+deactivate repository
+controller->api : IExpenseValue
+deactivate controller
+api->User : IExpenseValue
+deactivate api
+
+@enduml

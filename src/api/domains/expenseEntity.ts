@@ -3,6 +3,7 @@ import { EntityObject, approval_status, PrimitiveObject } from "../common";
 export const MAX_LENGTH = 64;
 export const MAX_AMOUNT = 1000000;
 
+// 費目名の規則
 class Type extends PrimitiveObject<string> {
   static create(value: string): Type {
     if (value.length > MAX_LENGTH || value.length <= 0)
@@ -11,6 +12,7 @@ class Type extends PrimitiveObject<string> {
   }
 }
 
+// 承認コードの規則
 class Approval extends PrimitiveObject<approval_status> {
   static create(value: approval_status = approval_status.unapproved): Approval {
     if (value <= approval_status.minimum || value >= approval_status.maximum)
@@ -19,6 +21,7 @@ class Approval extends PrimitiveObject<approval_status> {
   }
 }
 
+// 請求金額の規則
 class Amount extends PrimitiveObject<number> {
   static create(value: number): Amount {
     if (value <= 0 || value >= MAX_AMOUNT)
@@ -27,9 +30,10 @@ class Amount extends PrimitiveObject<number> {
   }
 }
 
+// 経費精算で利用されるクラスの実態
 interface IExpenseProps {
   id?: number | undefined;
-  user_id: number;
+  user_id: string;
   user_name?: string;
   date: Date;
   type: Type;
@@ -38,9 +42,10 @@ interface IExpenseProps {
   amount: Amount;
 }
 
+// オブジェクトを構成する要素
 export interface IExpenseValue {
   id?: number | undefined;
-  user_id: number;
+  user_id: string;
   user_name?: string;
   date: Date;
   type: string;

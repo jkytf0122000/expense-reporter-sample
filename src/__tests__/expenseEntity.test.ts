@@ -4,7 +4,7 @@ import { approval_status } from "../api/common";
 describe("Expense Entity", () => {
   const today = new Date();
   const Entity = ExpenseEntity.create({
-    user_id: 1,
+    user_id: "C042C74D-9D99-4C99-838D-1299252F3761",
     user_name: "sample user",
     date: today,
     type: "交通費",
@@ -15,7 +15,7 @@ describe("Expense Entity", () => {
   const e = Entity.read();
 
   it("set and get - positive", () => {
-    expect(e.user_id).toBe(1);
+    expect(e.user_id).toBe("C042C74D-9D99-4C99-838D-1299252F3761");
     expect(e.user_name).toBe("sample user");
     expect(e.date).toBe(today);
     expect(e.type).toBe("交通費");

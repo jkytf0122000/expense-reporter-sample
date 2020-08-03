@@ -6,7 +6,7 @@ export const sequelize: Sequelize = config.default();
 class Expense extends Model {
   public id!: number;
   public user_name?: string;
-  public user_id!: number;
+  public user_id!: string;
   public date!: Date;
   public type!: string;
   public description?: string | null;

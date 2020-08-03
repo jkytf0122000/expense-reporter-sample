@@ -1,20 +1,38 @@
-@startuml
+@startuml usecases
+
+left to right direction
 
 actor User
 actor Approver
+actor Accounting
 
-User <|-- Approver
+Approver --|> User
+Accounting --|> User
 
-rectangle Common {
-  User -> (Login)
-  Approver -> (Login)
-}
+rectangle Usecases {
+  package Common {
+    User -> (Login)
+    Approver -> (Login)
+    Accounting -> (Login)
+  }
 
-rectangle Expense {
-  User -> (Submit)
-  Approver -> (Submit)
+  package Expense {
+    User -> (View Rejected)
+    User -> (Submit)
+    User -> (Update)
+  }
 
-  Approver -> (Payment)
+  package Approval {
+    Approver -> (View Unapproved)
+    Approver -> (Approve)
+    Approver -> (Reject)
+  }
+
+  package Payment {
+    Accounting -> (View Approved)
+    Accounting -> (Pay)
+    Accounting -> (Reject)
+  }
 }
 
 @enduml

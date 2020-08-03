@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import Express from "express";
 // import { Expense } from "../models/expense";
-import { ExpenseRepository } from "./repositories/expense";
+import { ExpenseRepository } from "./interfaces/expenseRepository";
 import { FindAllApprovedExpense } from "./usecases/FindAllApprovedExpense";
 const router = Express.Router();
 
