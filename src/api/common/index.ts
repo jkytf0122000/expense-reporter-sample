@@ -10,7 +10,7 @@ export enum approval_status {
 export abstract class EntityObject<T> {
   protected props: T;
 
-  constructor(props: T) {
+  protected constructor(props: T) {
     this.props = props;
   }
 }

@@ -9,8 +9,8 @@ end box
 
 box "フレームワークとドライバ"
 boundary Express as index
-database データベース as dbmodel
-boundary "ルータ" as api
+
+database DBモデル as dbmodel
 end box
 box "インターフェイスアダプター"
 control "コントローラ" as controller
@@ -23,10 +23,9 @@ box "エンティティ"
 entity "Expense" as domains
 end box
 
-User->index : Expense(JSON)
-index->api : Expense(req.body)
-activate api
-api->controller : Expense(req.body)
+User->index : Expense (JSON)
+activate index
+index->controller : Expense(req.body)
 activate controller
 controller->Submit : IExpenseValue
 activate Submit
@@ -35,19 +34,19 @@ activate domains
 domains->domains : Checking Validation
 domains->Submit : ExpenseEntity
 deactivate domains
-Submit->controller : ExpenseEntity
-deactivate Submit
-controller->repository : IExpenseValue
+Submit->repository : ExpenseEntity
 activate repository
 repository->dbmodel : IExpenseValue
 activate dbmodel
 dbmodel->repository : IExpenseValue
 deactivate dbmodel
-repository->controller : IExpenseValue
+repository->Submit : ExpenseEntity
 deactivate repository
-controller->api : IExpenseValue
+Submit->controller : ExpenseEntity
+deactivate Submit
+controller->index : IExpenseValue
 deactivate controller
-api->User : IExpenseValue
-deactivate api
+index->User : Expense (JSON)
+deactivate index
 
 @enduml

@@ -48,12 +48,12 @@ router.get("/", (req: Request, res: Response, next: NextFunction) => {
 router.post("/", (req: Request, res: Response, next: NextFunction) => {
   const e = new ExpenseController();
 
-  e.submitExpenseController(req.body)
-    ?.then((result) => {
+  e.submitExpenseController(req.body!)
+    .then((result) => {
       res.status(200).json(result);
     })
     .catch((err) => {
-      res.status(400).json({ id: "202101", message: err });
+      res.status(400).json({ id: "20201", message: err });
     });
 });
 
