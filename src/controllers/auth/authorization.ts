@@ -46,7 +46,29 @@ export class Authorization {
     })(req, res, next);
   }
 
+  static isAuthorizedRole(
+    key: string,
+    req: any,
+    res: Response,
+    next: NextFunction
+  ) {
+    console.log(`key: ${key}`);
+    Role.findOne({ where: { user_id: req.user.id } })
+      .then((role) => {
+        if (role?.name.includes(key)) {
+          return next();
+        } else {
+          res.status(401).json({ status: "10003" });
+        }
+      })
+      .catch(() => {
+        res.status(401).json({ status: "10004" });
+      });
+  }
+
   static isBoss(req: any, res: Response, next: NextFunction) {
+    console.log("isBoss");
+    //this.isAuthorizedRole("B", req, res, next);
     Role.findOne({ where: { user_id: req.user.id } })
       .then((role) => {
         if (role?.name.match(/B/)) {

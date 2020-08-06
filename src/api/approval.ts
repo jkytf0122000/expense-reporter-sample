@@ -7,6 +7,7 @@ const router = Express.Router();
 
 // 承認の必要なリスト一覧の取得
 router.get("/", (req: any, res: Response, next: NextFunction) => {
+  console.log("approval");
   const expenseRepository = new ExpenseRepository();
 
   try {
@@ -37,10 +38,16 @@ router.put("/", (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const usecase = new UpdateApprovalExpense(expenseRepository);
-    usecase.execute(req.body.id, req.body.status).then((result) => {
-      console.log(result);
-      res.status(200).json(result.read());
-    });
+    usecase
+      .execute(req.body.id, req.body.status)
+      .then((result) => {
+        console.log(result);
+        res.status(200).json(result.read());
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(400).json({ id: 20011, message: err });
+      });
   } catch (err) {
     console.log(err);
     res.status(400).json({ id: 21001, message: err });
