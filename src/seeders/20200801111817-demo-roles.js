@@ -6,14 +6,21 @@ module.exports = {
       {
         id: 1,
         user_id: "C042C74D-9D99-4C99-838D-1299252F3761",
-        name: "B",
+        name: "BOSS",
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
         id: 2,
         user_id: "782580E8-2936-4D3B-9497-BA6545BC387C",
-        name: "BA",
+        name: "BOSS",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id: 3,
+        user_id: "782580E8-2936-4D3B-9497-BA6545BC387C",
+        name: "APPROVER",
         created_at: new Date(),
         updated_at: new Date(),
       },
