@@ -4,6 +4,18 @@ import { Role } from "../../models/role";
 import passport from "passport";
 import { Strategy as JWTStrategy, ExtractJwt } from "passport-jwt";
 
+async function isAuthorizedRole(id: string, role: string) {
+  const roles = await Role.findAll({ where: { user_id: id }, raw: true });
+
+  for (let i = 0; i < roles.length; i++) {
+    if (roles[i].name === role) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 export class Authorization {
   // JWT トークンで該当するユーザの有無をチェック
   static verifyJWT(req: Request, jwt_payload: any, done: any) {
@@ -46,53 +58,19 @@ export class Authorization {
     })(req, res, next);
   }
 
-  static isAuthorizedRole(
-    key: string,
-    req: any,
-    res: Response,
-    next: NextFunction
-  ) {
-    console.log(`key: ${key}`);
-    Role.findOne({ where: { user_id: req.user.id } })
-      .then((role) => {
-        if (role?.name.includes(key)) {
-          return next();
-        } else {
-          res.status(401).json({ status: "10003" });
-        }
-      })
-      .catch(() => {
-        res.status(401).json({ status: "10004" });
-      });
+  static async isBoss(req: any, res: Response, next: NextFunction) {
+    if (await isAuthorizedRole(req.user.id, "BOSS")) {
+      return next();
+    } else {
+      res.status(401).json({ status: "10003" });
+    }
   }
 
-  static isBoss(req: any, res: Response, next: NextFunction) {
-    console.log("isBoss");
-    //this.isAuthorizedRole("B", req, res, next);
-    Role.findOne({ where: { user_id: req.user.id } })
-      .then((role) => {
-        if (role?.name.match(/B/)) {
-          return next();
-        } else {
-          res.status(401).json({ status: "10003" });
-        }
-      })
-      .catch(() => {
-        res.status(401).json({ status: "10004" });
-      });
-  }
-
-  static isAccounting(req: any, res: Response, next: NextFunction) {
-    Role.findOne({ where: { user_id: req.user.id } })
-      .then((role) => {
-        if (role?.name.match(/A/)) {
-          return next();
-        } else {
-          res.status(401).json({ status: "10003" });
-        }
-      })
-      .catch(() => {
-        res.status(401).json({ status: "10004" });
-      });
+  static async isAccounting(req: any, res: Response, next: NextFunction) {
+    if (await isAuthorizedRole(req.user.id, "APPROVER")) {
+      return next();
+    } else {
+      res.status(401).json({ status: "10004" });
+    }
   }
 }
