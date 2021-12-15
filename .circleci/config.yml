@@ -19,6 +19,7 @@ jobs:
           POSTGRES_DB: sample
 
         working_directory: ~/repo
+        entrypoint: bash
         command: >
           -c '
             openssl req -nodes -new -x509 -subj "/CN=localhost" -keyout server.key -out server.crt &&
