@@ -14,7 +14,7 @@
     "start": "node ."
   },
   "engines": {
-    "node": "12.19.0"
+    "node": "14.18.1"
   },
   "author": "しょっさん",
   "license": "ISC",
