@@ -6,7 +6,6 @@ export default function (): Sequelize {
 
   if (config.use_env_variable) {
     const config_url: any = process.env[config.use_env_variable];
-    console.log(`config_url: ${config_url}`);
     return new Sequelize(config_url, config);
   } else {
     return new Sequelize(config.database, config.username, config.password, config);
