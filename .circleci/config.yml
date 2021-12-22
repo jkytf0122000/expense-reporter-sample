@@ -12,7 +12,7 @@ jobs:
           DATABASE_URL: postgres://testing:password@localhost:5432/sample
 
       # local postgresql server
-      - image: circleci/postgres:latest
+      - image: circleci/postgres:13.0
         environment:
           POSTGRES_USER: testing
           POSTGRES_PASSWORD: password
