@@ -1,6 +1,6 @@
 {
   "name": "webapp",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "This application is a sample code of Shell Script Magazine",
   "main": "dist/index.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "start": "node ."
   },
   "engines": {
-    "node": "14.18.1"
+    "node": "16.13.1"
   },
   "author": "しょっさん",
   "license": "ISC",
