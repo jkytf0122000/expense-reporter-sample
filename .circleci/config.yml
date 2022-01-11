@@ -2,7 +2,10 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-version: 2
+version: 2.1
+orbs:
+  slack: circleci/slack@4.5.2
+
 jobs:
   build:
     docker:
@@ -27,7 +30,7 @@ jobs:
           '
     resource_class: medium
     parallelism: 4
-    
+
     steps:
       - checkout
 
@@ -50,3 +53,9 @@ jobs:
 
       # run tests!
       - run: npm test
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: basic_success_1
