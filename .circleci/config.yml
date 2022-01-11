@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: cimg/node:16.13.1
+      - image: cimg/node:16.13.2
         environment:
           DATABASE_URL: postgres://testing:password@localhost:5432/sample
 
@@ -25,7 +25,9 @@ jobs:
             chmod 600 /server.key &&
             exec /docker-entrypoint.sh -c ssl=on -c ssl_cert_file=/server.crt -c ssl_key_file=/server.key
           '
-
+    resource_class: medium
+    parallelism: 1
+    
     steps:
       - checkout
 
